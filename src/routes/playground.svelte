@@ -23,8 +23,8 @@
 	
 </script>
 
-{#if game}
 <main>
+{#if game}
 	<h1> Rummy! </h1>
 	
 	<section>
@@ -71,11 +71,11 @@
 			</div>
 		</section>
 	</section>
-</main>
-{:else}
+	{:else}
 	<h1> Rummy! </h1>
 	<button class='start' on:click={() => game = new Game(4)}> START GAME </button>
-{/if}
+	{/if}
+</main>
 
 <style>
 	.start {

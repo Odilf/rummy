@@ -32,6 +32,11 @@
 		'270, 30%, 50%',
 	]
 
+	function color(index: number) {
+		const angle = (index % 4)*360/4 + 90/(2**Math.floor(index/4))
+		return `${angle}, 30%, 50%`
+	}
+
 </script>
 
 <svelte:window on:mouseup={() => $selection = null}/>
@@ -42,7 +47,7 @@
 	on:mousedown={() => $selection = token}
 	on:touchstart={() => $selection = token}
 >
-	<div class='token' style='--color: {colors[token.color]}' bind:this={div}>
+	<div class='token' style='--color: {color(token.color)}' bind:this={div}>
 		{token.value}
 		<div class="circle"/>
 	</div>
