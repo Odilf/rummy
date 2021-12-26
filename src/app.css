@@ -1,0 +1,54 @@
+@import "@fontsource/inter";
+@import "@fontsource/inter/variable.css";
+
+:root {
+	/* --stair: hsl(10, 100%, 20%); */
+	/* --group: ; */
+	font-family: 'InterVariable';
+	color: white;
+
+	--shadow: 0 0 10px hsla(0, 0%, 0%, 0.5)
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	background: rgb(2,0,36);
+	background: linear-gradient(36deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 26%, rgba(0,123,255,1) 100%);
+
+	min-height: 100vh;
+}
+
+main {
+	width: min(820px, 100%);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#svelte {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+button {
+	border-radius: 20px;
+	border: none;
+
+	font-family: "InterVariable";
+	font-weight: 500;
+
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+button:hover {
+	transform: scale(1.05);
+}
+
+button:active {
+	transform:  rotate(5deg);
+}
