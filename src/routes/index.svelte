@@ -59,7 +59,7 @@
 				on:click={() => location.href = link}> {description} </button>
 			{/each}
 		</div>
-		<button class='m-10 drop-shadow-lg'> About </button>
+		<button class='m-10 drop-shadow-lg' on:click={() => location.href = '/about'}> About </button>
 	</main> 
 
 	{#each confetti as c}
