@@ -66,15 +66,15 @@
 			<h2> Stack </h2>
 			<div class="stack">
 				{#each $stack as token}
-				<Token {token}/>
+					<Token value={token.value} color={token.color}/>
 				{/each}
 			</div>
 		</section>
 	</section>
-	{:else}
+{:else}
 	<h1> Rummy! </h1>
 	<button class='start' on:click={() => game = new Game(4)}> START GAME </button>
-	{/if}
+{/if}
 </main>
 
 <style>

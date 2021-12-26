@@ -7,11 +7,12 @@ module.exports = {
 		},
 		extend: {},
 		colors: {
-			'primary': '#DDD5D0',
-			'secondary': '#CFC0BD',
-			'tertiary': '#B8B8AA',
-			'accent': '#7F9183',
-			'other': '#586F6B',
+			'primary': '#d1b09b',
+			'secondary': '#87B1DE',
+			'group': '#FC99FF',
+			'stair': '#7DDE92',
+			'white': '#ffffff',
+			'black': '#000000',
 		},
 	},
 
