@@ -10,8 +10,6 @@
 	const dispatch = createEventDispatcher()
 
 	function handler(e) {
-		console.log('Getting dropped on',  { ...e.detail, setIndex: index });
-		
 		dispatch(e.type, { ...e.detail, setIndex: index })
 	}
 
@@ -20,7 +18,7 @@
 
 <div class='first-letter:w-fit flex flex-row rounded-xl w-fit h-fit m-2 shadow-xl bg-white/50 {type}'
 use:dropzone on:drop={handler} on:dragenter={handler}>
-	{#each tokens as token}
+	{#each tokens as token (token.id)}
 		<Token value={token.value} color={token.color} draggable id={token.id}/>
 	{/each}
 </div>

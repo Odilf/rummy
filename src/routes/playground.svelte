@@ -24,6 +24,9 @@
 	}
 
 	function handleDrop(e) {
+		console.log('droppin', e);
+		
+
 		if ('token' in e.detail) {
 			const tokenData = e.detail.token
 
@@ -40,6 +43,8 @@
 
 			tokens.update(tokens => {
 				const token = tokens.find(token => token.id === tokenData.id)
+				console.log(token);
+				
 				token.belongs = place
 				token.index = index
 				return tokens
@@ -70,11 +75,11 @@
 				<button disabled={activePlayer === numberOfPlayers - 1} on:click={() => activePlayer++}> Next </button>
 			</header>
 
-			{#key activePlayer}
+			<!-- {#key activePlayer} -->
 				<div class='shrink-0' in:fly={{x: 500}} out:fly={{x: -500}}>
 					<Hand hand={$players[activePlayer]} index={activePlayer} on:drop={handleDrop}/>
 				</div>
-			{/key}
+			<!-- {/key} -->
 		</main>
 
 		<Board sets={$board} on:drop={handleDrop}/>
