@@ -4,16 +4,17 @@
 	import { Game, Place, Token } from "$lib/game/logic"
 	import Board from '$lib/game/Board.svelte'
 	import Hand from "$lib/game/Hand.svelte";
-import GameInitializer from '$lib/playing/GameInitializer.svelte';
+	import GameInitializer from '$lib/playing/GameInitializer.svelte';
 
-	// let numberOfPlayers = 4
-	let game: Game; let players: Readable<Token[][]>; let board: Readable<Token[][]>; let tokens: Writable<Token[]>
+	let game: Game
+	let players: Readable<Token[][]>
+	let board: Readable<Token[][]>
+	let tokens: Writable<Token[]>
 
 	const flyDistance = 500
 	const duration = 800
 
 	let activePlayer = 0
-	let totalPlayers: number
 
 	$: if (game) {
 		players = game.players
@@ -53,23 +54,19 @@ import GameInitializer from '$lib/playing/GameInitializer.svelte';
 {#key game}
 
 <body class='bg-primary' in:fly={{y: flyDistance, duration}} out:fly={{y: -flyDistance, duration}}>
-	<h1 class='mb-10 text-6xl sm:text-8xl'> Playground </h1>
 	{#if !game}
-	<GameInitializer bind:game bind:totalPlayers/>
-	
+		<GameInitializer bind:game/>
 	{:else}
-	<!-- <h1 class='mb-2 text-6xl sm:text-8xl'> Playground </h1> -->
-
-		<main class='font-bold rounded m-4 mb-0 flex flex-col' >
+		<main class='font-bold rounded m-4 flex flex-col' >
 			<header class='flex-1'>
-				<button disabled={activePlayer === 0} on:click={() => activePlayer--}> Previous </button>
+				<!-- <button disabled={activePlayer === 0} on:click={() => activePlayer--}> Previous </button> -->
 				<h2 class='text-6xl '> Player {activePlayer} </h2>
-				<button disabled={activePlayer === totalPlayers - 1} on:click={() => activePlayer++}> Next </button>
+				<!-- <button disabled={activePlayer === numberOfPlayers - 1} on:click={() => activePlayer++}> Next </button> -->
 			</header>
 
 			<button on:click={() => game.draw(activePlayer)} 
 				disabled={$tokens.filter(token => token.belongs === Place.Stack).length <= 0}> 
-				Draw token 
+				Draw and pass 
 			</button>
 
 			<Hand hand={$players[activePlayer]} index={activePlayer} on:drop={handleDrop}/>
