@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Draggable from '$lib/draggable/Draggable.svelte'
+	import { colorNames } from './colorNames'
 
 
 	export let color: number
@@ -11,21 +12,27 @@
 	let hovering = false
 	let shifting = false
 
-	// https://api.color.pizza/v1/00ff00
-
 	$: angle = (color % 4)*360/4 + 90*(1 - 1/(2**Math.floor(color/4)))
 	$: htmlColor = `hsl(${angle}, 30%, 50%)`
-
+	
 
 	async function getColorName(h, s, l) {
+		const hex = hslToHex(h, s, l)
+		if ($colorNames[hex]) return ($colorNames[hex])
+
 		console.warn('Using color API');
-		const response = await fetch(`https://api.color.pizza/v1/${hslToHex(h, s, l)}`)
+		const response = await fetch(`https://api.color.pizza/v1/${hex}`)
 							  .then(response => response.json())
-			
-		return response.colors[0].name
+		
+		colorNames.update(colorNames => {
+			colorNames[hex] = response.colors[0].name
+			return colorNames
+		})
+		
+		return $colorNames[hex]
 	}
 
-	function hslToHex(h, s, l) {
+	function hslToHex(h: number, s: number, l: number): string {
 		l /= 100;
 		const a = s * Math.min(l, 1 - l) / 100;
 		const f = n => {
