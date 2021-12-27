@@ -11,20 +11,20 @@
 	<div class="flex w-full flex-row box-border justify-center flex-wrap">
 		<div class="card">
 			Groups have tokens with the same value, but different colors.
-			<Set>
-				<Token value={5} color={0}/>
-				<Token value={5} color={2}/>
-				<Token value={5} color={5}/>
-			</Set>
+			<Set tokens={[
+				{value: 5, color: 0},
+				{value: 5, color: 2},
+				{value: 5, color: 5},
+			]} index={0}/>
 		</div>
 		
 		<div class="card">
 			Stairs are the same color, but have values in ascending order.
-			<Set>
-				<Token value={2} color={3}/>
-				<Token value={3} color={3}/>
-				<Token value={4} color={3}/>
-			</Set>
+			<Set tokens={[
+				{value: 2, color: 0},
+				{value: 3, color: 0},
+				{value: 4, color: 0},
+			]} index={1}/>
 		</div>
 	</div>
 	<button class='m-10 drop-shadow-lg' on:click={() => location.href = '/about'}> About </button>

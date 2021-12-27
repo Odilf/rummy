@@ -1,45 +1,25 @@
 <script lang="ts">
 	import type { Token as TokenType } from './logic'
-	import { selection } from './state';
 	import Token from './Token.svelte'
+	import { dropzone } from "$lib/draggable/draggable";
+	import { createEventDispatcher } from 'svelte';
+	import { flip } from 'svelte/animate';
 
 	export let hand: TokenType[]
 	export let index: number
-	// export let draw: () => void
-	// export let passTurn: () => void = () => null
 
-	export let moveToHand: (token: TokenType, playerIndex: number) => void = () => null
-	export let acceptList: TokenType[] = []
+	const dispatch = createEventDispatcher()
 
-	function handleDrop() {
-		
-		if ($selection && acceptList.includes($selection)) {
-			moveToHand($selection, index)
-		}
+	function handler(e) {
+		dispatch(e.type, {...e.detail, playerIndex: index})
 	}
-
-	console.log(hand);
-	
 </script>
 
-<!-- <main> -->
-	<section class='hand' on:mouseup={handleDrop}>
-		{#each hand as token (token.id) }
-			<Token bind:token/>
-		{/each}
-	</section>
-<!-- </main> -->
+<section class='flex flex-wrap p-4 m-4 bg-secondary rounded' use:dropzone on:drop={handler} on:dragenter={handler}>
+	{#each hand as token (token.id) }
+	<div animate:flip>
 
-<style>
-	
-	.hand {
-		display: flex;
-		flex-wrap: wrap;
-		background-color: hsl(10, 20%, 30%);
-
-		margin-top: 0.5em;
-		border-radius: 20px;
-
-		box-shadow: var(--shadow);
-	}
-</style>
+		<Token value={token.value} color={token.color} id={token.id} draggable/>
+	</div>
+	{/each}
+</section>

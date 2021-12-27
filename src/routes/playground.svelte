@@ -1,132 +1,84 @@
-<script context="module">
-	export const ssr = false;
-</script>
-
 <script lang="ts">
-	import Token from '$lib/game/Token.svelte'
-	import Hand from '$lib/game/Hand.svelte'
-	import Board from '$lib/game/Board.svelte';
-	import { Game } from '$lib/game/logic'
+	import { fly } from 'svelte/transition'
+	import type { Readable, Writable } from "svelte/store";
+	import { Game, Place, Token } from "$lib/game/logic"
+	import Board from '$lib/game/Board.svelte'
+	import Hand from "$lib/game/Hand.svelte";
 
-	let game: Game
-	let board
-	let players
-	let stack 
+	import { swipe } from '$lib/swipe'
 
-	$: if (game) {
-		board = game.board
-		players = game.players
-		stack = game.stack
-	}
+	let numberOfPlayers = 4
+	let game: Game; let players: Readable<Token[][]>; let board: Readable<Token[][]>; let tokens: Writable<Token[]>
+
+	game = new Game(4)
+
+	const flyDistance = 500
+	const duration = 800
 
 	let activePlayer = 0
-	
+
+	$: if (game) {
+		players = game.players
+		board = game.board
+		tokens = game.tokens
+	}
+
+	function handleDrop(e) {
+		if ('token' in e.detail) {
+			const tokenData = e.detail.token
+
+			let index: number
+			let place = Place.Board
+			if ('setIndex' in e.detail) {
+				index = e.detail.setIndex
+			} else if ('playerIndex' in e.detail) {
+				index = e.detail.playerIndex
+				place = Place.Hand
+			} else {
+				index = lowestUnusedIndex()
+			}
+
+			tokens.update(tokens => {
+				const token = tokens.find(token => token.id === tokenData.id)
+				token.belongs = place
+				token.index = index
+				return tokens
+			})
+		}
+	}
+
+	function lowestUnusedIndex(): number {
+		return $board.map(set => set[0].index).reduce((acc, cur) => cur > acc ? cur : acc, -1) + 1
+	}
 </script>
 
-<main>
-{#if game}
-	<h1> Rummy! </h1>
-	
-	<section>
-		<Board sets={$board} moveToBoard={game.moveToBoard}/>
+{#key game}
+
+<body class='bg-primary mt-10' in:fly={{y: flyDistance, duration}} out:fly={{y: -flyDistance, duration}}>
+	<h1 class='mb-10 text-6xl sm:text-8xl'> Playground </h1>
+	{#if !game}
+		<label for='players' class='mt-10 mb-2 text-xl'> Number of players: </label>
+		<input name='players' type="number" bind:value={numberOfPlayers} class='text-black text-3xl font-bold text-center w-10'>
+		<button class='text-5xl p-8 mt-8 bg-secondary' on:click={() => game = new Game(numberOfPlayers)}> Start game </button>
 		
-		
-		
-		<div class="hand">
-			
-			<header>
+	{:else}
+
+		<main class='font-bold rounded m-4 flex flex-col' >
+			<header class='flex-1'>
 				<button disabled={activePlayer === 0} on:click={() => activePlayer--}> Previous </button>
-				
-				<div class="center">
-					<select bind:value={activePlayer}> 
-						{#each $players as player, i}
-						<option value={i}> Player {i} </option>
-						{/each}
-					</select>
-					<h2> Player {activePlayer} </h2>
-					<button on:click={() => {
-						game.draw(activePlayer)
-					}}>
-						Draw
-					</button>
-				</div>
-				
-				<button disabled={activePlayer === $players.length - 1} on:click={() => activePlayer++}> Next </button>
-				
+				<h2 class='text-6xl '> Player {activePlayer} </h2>
+				<button disabled={activePlayer === numberOfPlayers - 1} on:click={() => activePlayer++}> Next </button>
 			</header>
-			
-			<Hand
-			hand={$players[activePlayer]} index={activePlayer}
-			moveToHand={game.moveToHand}
-			acceptList={$board.flat()}
-			/>
-		</div>
-		
-		<section class='stack-container'>
-			<h2> Stack </h2>
-			<div class="stack">
-				{#each $stack as token}
-					<Token value={token.value} color={token.color}/>
-				{/each}
-			</div>
-		</section>
-	</section>
-{:else}
-	<h1> Rummy! </h1>
-	<button class='start' on:click={() => game = new Game(4)}> START GAME </button>
-{/if}
-</main>
 
-<style>
-	.start {
-		width: 300px;
-		height: 100px;
+			{#key activePlayer}
+				<div class='shrink-0' in:fly={{x: 500}} out:fly={{x: -500}} use:swipe={console.log}>
+					<Hand hand={$players[activePlayer]} index={activePlayer} on:drop={handleDrop}/>
+				</div>
+			{/key}
+		</main>
 
-		font-size: 2em;
-		font-weight: 700;
-	}
-	.hand {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		
-		background-color: hsl(9, 20%, 19%);
-		border-radius: 20px;
-		margin: 1em;
-	}
+		<Board sets={$board} on:drop={handleDrop}/>
+	{/if}
+</body>
 
-	header {
-		display: flex;
-		justify-content: space-evenly;
-		align-items: center;
-		width: 80%;
-		padding: 1em;
-	}
-
-	.center {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
-	section {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.stack-container {
-		width: min(650px, 95vw);
-	}
-
-	.stack {
-		display: flex;
-		align-items: center;
-
-		overflow: scroll;
-	}
-
-	button {
-		height: 2em;
-		width: 6em;
-	}
-</style>
+{/key}

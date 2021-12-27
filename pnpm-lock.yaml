@@ -5,10 +5,12 @@ specifiers:
   '@sveltejs/adapter-auto': next
   '@sveltejs/kit': next
   autoprefixer: ^10.4.0
+  interactjs: ^1.10.11
   postcss: ^8.4.5
   svelte: ^3.44.0
   svelte-check: ^2.2.6
   svelte-preprocess: ^4.9.4
+  swipejs: ^2.3.1
   tailwindcss: ^3.0.7
   tippy.js: ^6.3.7
   tslib: ^2.3.1
@@ -16,11 +18,13 @@ specifiers:
 
 dependencies:
   '@fontsource/inter': 4.5.1
+  interactjs: 1.10.11
+  swipejs: 2.3.1
   tippy.js: 6.3.7
 
 devDependencies:
-  '@sveltejs/adapter-auto': 1.0.0-next.4
-  '@sveltejs/kit': 1.0.0-next.202_svelte@3.44.3
+  '@sveltejs/adapter-auto': 1.0.0-next.5
+  '@sveltejs/kit': 1.0.0-next.203_svelte@3.44.3
   autoprefixer: 10.4.0_postcss@8.4.5
   postcss: 8.4.5
   svelte: 3.44.3
@@ -61,6 +65,10 @@ packages:
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
     dev: true
 
+  /@interactjs/types/1.10.11:
+    resolution: {integrity: sha512-YRsVFWjL8Gkkvlx3qnjeaxW4fnibSJ9791g8BA7Pv5ANByI64WmtR1vU7A2rXcrOn8XvyCEfY0ss1s8NhZP+MA==}
+    dev: false
+
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -94,16 +102,16 @@ packages:
       picomatch: 2.3.0
     dev: true
 
-  /@sveltejs/adapter-auto/1.0.0-next.4:
-    resolution: {integrity: sha512-kfygrjF2uIgVVDsySl7I9oWSekU6adJCr/3qzLQDLM4FJ98FWmfhj4OOWsmF9X4JRPSm97t3RPugYsN3NLwKMQ==}
+  /@sveltejs/adapter-auto/1.0.0-next.5:
+    resolution: {integrity: sha512-pD0iULDFuOQ0I9fLvdjL9BrA90hZwYtcaI25pNCdxGzdn9sgpXhxmON807fJgn1lG9HQ1LBTABz4gUMXviVAdg==}
     dependencies:
-      '@sveltejs/adapter-cloudflare': 1.0.0-next.3
+      '@sveltejs/adapter-cloudflare': 1.0.0-next.4
       '@sveltejs/adapter-netlify': 1.0.0-next.36
       '@sveltejs/adapter-vercel': 1.0.0-next.32
     dev: true
 
-  /@sveltejs/adapter-cloudflare/1.0.0-next.3:
-    resolution: {integrity: sha512-LauvvkBFCE8myGMLWOncv97/xU8JJn9OMl1miy8f/q8qs0CrduvR1sv2uCM9AylqT/FNPy3mony5wpe3w1v7sg==}
+  /@sveltejs/adapter-cloudflare/1.0.0-next.4:
+    resolution: {integrity: sha512-c792TBbVhWtqAjxeorkHUArz4bTFpvAXfgMZALakNV4lakUH/1bgjisrSg5xMNQlUqu1kkUlKQic61avsKH8gw==}
     dependencies:
       esbuild: 0.13.15
     dev: true
@@ -121,8 +129,8 @@ packages:
       esbuild: 0.13.15
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.202_svelte@3.44.3:
-    resolution: {integrity: sha512-rXmJ0FplkWvD1CaeCfejRYhOJYrlmeUm5Fkw7gIKDdWPQev5rqOhd9B9ZvRpq35oMqCAwaOfK+e5S6k+83feEQ==}
+  /@sveltejs/kit/1.0.0-next.203_svelte@3.44.3:
+    resolution: {integrity: sha512-+bhfmkzquWMSCCFIJoh36U9D6IKC0p/NrIr4CBHMAdRpqzL9lMP0AYQm1fUDH20F/6b2tWvGxmEg+gAmHikRfA==}
     engines: {node: '>=14.13'}
     hasBin: true
     peerDependencies:
@@ -725,6 +733,12 @@ packages:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
     dev: true
 
+  /interactjs/1.10.11:
+    resolution: {integrity: sha512-VPUWsGAOPmrZe1YF7Fq/4AIBBZ+3FikZRS8bpzT6VsAfUuhxl/CKJY73IAiZHd3fz9p174CXErn0Qs81XEFICA==}
+    dependencies:
+      '@interactjs/types': 1.10.11
+    dev: false
+
   /is-arrayish/0.2.1:
     resolution: {integrity: sha1-d8mYQFJ6qOyxqLppe4BkWnqSap0=}
     dev: true
@@ -1179,6 +1193,11 @@ packages:
     resolution: {integrity: sha512-aGgrNCip5PQFNfq9e9tmm7EYxWLVHoFsEsmKrtOeRD8dmoGDdyTQ+21xd7qgFd8MNdKGSYvg7F9dr+Tc0yDymg==}
     engines: {node: '>= 8'}
     dev: true
+
+  /swipejs/2.3.1:
+    resolution: {integrity: sha512-mUL5MKSVkpQ2/CMgurNNgiKNRKcRkkD1/bfe8f2Y5MZW74E99p3zCxBrV9C7goMmBY4J8lrH3Dm0IQvaV64UEQ==}
+    engines: {node: '>=10'}
+    dev: false
 
   /tailwindcss/3.0.7_16a290f6d0e3717bf6d2667234aebd30:
     resolution: {integrity: sha512-rZdKNHtC64jcQncLoWOuCzj4lQDTAgLtgK3WmQS88tTdpHh9OwLqULTQxI3tw9AMJsqSpCKlmcjW/8CSnni6zQ==}

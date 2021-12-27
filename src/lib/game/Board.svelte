@@ -1,45 +1,27 @@
 <script lang="ts">
 	import Token from "./Token.svelte";
+	import Set from './Set.svelte'
 	import { selection } from './state'
-	import { isValidBoard, Place, Token as TokenType } from './logic'
-	import { isStair, isGroup } from './logic'
-	import { flip } from "svelte/animate";
+	import type { Place, Token as TokenType } from './logic'
+	import { dropzone } from '$lib/draggable/draggable'
 
-	export let moveToBoard: (token: TokenType, index: number) => void
 	export let sets: TokenType[][]
-
-	function handleBoardDrop(e: MouseEvent): void {
-		if (!$selection || sets.some(set => set.includes($selection))) return
-		if (e.target === e.currentTarget) {
-			const lowestUnusedIndex = sets.map(set => set[0].index).reduce((acc, cur) => cur > acc ? cur : acc, -1) + 1
-			moveToBoard($selection, lowestUnusedIndex)
-		}
-	}
 	
 	function handleSetDrop(e: MouseEvent, index: number): void {
 		if (!$selection || ($selection.belongs === "Board" && $selection.index === index)) return
-		moveToBoard($selection, index)
 	}
 
 </script>
 
 <div 
-	class="board {isValidBoard(sets) ? '' : 'invalid'}" 
-	on:mouseup={handleBoardDrop}
->
+class='bg-[#7c3d0d] min-h-[30%] w-full flex flex-wrap px-10 py-5 justify-center' 
+use:dropzone on:drop>
 	{#each sets as set (set[0].index)}
-		<div 
-			class="set {isGroup(set) ? 'group' : isStair(set) ? 'stair' : 'invalid-set'}" 
-			on:mouseup={e => handleSetDrop(e, set[0].index)}
-		>
-			{#each set as token (token.id)}
-				<Token bind:token/>
-			{/each}
-		</div>
+		<Set tokens={set} index={set[0].index} on:drop/>
 	{/each}
 </div>
 
-<style>
+<!-- <style>
 	.board {
 		display: flex;
 		flex-wrap: wrap;
@@ -85,4 +67,4 @@
 		background-color: var(--color);
 		box-shadow: 0 0 20px var(--color);
 	}
-</style>
+</style> -->

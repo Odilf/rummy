@@ -8,6 +8,7 @@ export enum Place {
 	Stack = "Stack",
 	Hand = "Hand",
 	Board = "Board",
+	Other = "Other",
 }
 
 function buildDefaultTokens(colors = default_colors, values = default_values): Token[] {
@@ -31,9 +32,9 @@ function buildDefaultTokens(colors = default_colors, values = default_values): T
 export interface Token {
 	value: number
 	color: number
-	belongs: Place
-	index: number
-	id: number
+	belongs?: Place
+	index?: number
+	id?: number
 }
 
 function shuffleArray<T>(array: Array<T>) {
