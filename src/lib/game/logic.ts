@@ -1,8 +1,8 @@
 import { writable, derived } from 'svelte/store'
 import type { Writable, Readable } from "svelte/store"
 
-const default_colors = [0, 1, 2, 3]
-const default_values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+const default_colors = 3
+const default_values = 13
 
 export enum Place {
 	Stack = "Stack",
@@ -13,7 +13,7 @@ export enum Place {
 
 function buildDefaultTokens(colors = default_colors, values = default_values): Token[] {
 	let i = -2
-	return colors.flatMap(color => values.flatMap(value => {
+	return range(colors).flatMap(color => range(1, values).flatMap(value => {
 		i++
 		return range(2).map(() => {
 			i++
@@ -55,10 +55,10 @@ function readStore<T>(store: Readable<T>): T {
 export class Game {
 	turn: number = 0
 	tokens: Writable<Token[]> = writable(null)
-	total_players: number
+	totalPlayers: number
 
 	stack = derived(this.tokens, tokens => shuffleArray(tokens.filter(token => token.belongs === Place.Stack)))
-	players = derived(this.tokens, tokens => range(this.total_players)
+	players = derived(this.tokens, tokens => range(this.totalPlayers)
 											.map(index => tokens
 											.filter(token => 
 												token.belongs === Place.Hand && 
@@ -95,17 +95,18 @@ export class Game {
 	moveToBoard = (selection: Token, index: number): void => this.moveTo(selection, Place.Board, index)
 	moveToHand = (selection: Token, index: number): void => this.moveTo(selection, Place.Hand, index)
 
-	constructor(total_players: number, colors = default_colors, values = default_values) {
-		this.tokens.set(buildDefaultTokens(colors, values))
-		this.total_players = total_players
+	constructor(totalPlayers: number, values = default_values) {
+		this.tokens.set(buildDefaultTokens(totalPlayers, values))
+		this.totalPlayers = totalPlayers
 
-		range(total_players).forEach(player => {
+		range(totalPlayers).forEach(player => {
 			range(14).forEach(() => this.draw(player))
 		})
 	}
 }
 
-function range(size: number): number[] {
+function range(a: number, b: number = null): number[] {
+	const size = b == null ? a : (b - a)
 	return [...Array(size).keys()]
 }
 
