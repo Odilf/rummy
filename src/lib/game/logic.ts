@@ -107,7 +107,8 @@ export class Game {
 
 function range(a: number, b: number = null): number[] {
 	const size = b == null ? a : (b - a)
-	return [...Array(size).keys()].map(i => i + a)
+	const adder = b == null ? 0 : a
+	return [...Array(size).keys()].map(i => i + adder)
 }
 
 export function isStair(set: Token[]): boolean {
