@@ -8,8 +8,6 @@
 	let numberOfPlayers = 4
 	let game: Game; let players: Readable<Token[][]>; let board: Readable<Token[][]>; let tokens: Writable<Token[]>
 
-	game = new Game(4)
-
 	const flyDistance = 500
 	const duration = 800
 
