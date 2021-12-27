@@ -1,6 +1,9 @@
 import Swipe from 'swipejs';
 
 export function swipe(node: HTMLElement, callback) {
+	console.warn('NOT IMPLEMENTED');
+	alert("SWPIPING ISNT IMPLEMENTED, DUNCE")
+	
 	function handleTouchstart(e: TouchEvent) {
 		console.log(e);
 		
@@ -13,12 +16,12 @@ export function swipe(node: HTMLElement, callback) {
 	}
 
 	node.addEventListener('touchstart', handleTouchstart)
-	node.addEventListener('touchmove', handleTouchmove,  { passive: true })
+	node.addEventListener('touchmove', handleTouchmove)
 
 	return {
 		destroy() {
 			node.removeEventListener('touchstart', handleTouchstart)
-			node.removeEventListener('touchmove', handleTouchmove, true)
+			node.removeEventListener('touchmove', handleTouchmove)
 		}
 	}
 }
