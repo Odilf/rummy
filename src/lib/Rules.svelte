@@ -33,7 +33,7 @@
 
 <style lang='postcss'>
 	.card {
-		@apply bg-secondary flex-shrink rounded-xl p-5 m-4 flex flex-col justify-center;
+		@apply bg-secondary flex-shrink rounded-xl p-5 m-4 flex flex-col justify-center shadow;
 		width: 300px;
 	}
 </style>

@@ -5,8 +5,6 @@
 	import Board from '$lib/game/Board.svelte'
 	import Hand from "$lib/game/Hand.svelte";
 
-	import { swipe } from '$lib/swipe'
-
 	let numberOfPlayers = 4
 	let game: Game; let players: Readable<Token[][]>; let board: Readable<Token[][]>; let tokens: Writable<Token[]>
 
@@ -24,9 +22,6 @@
 	}
 
 	function handleDrop(e) {
-		console.log('droppin', e);
-		
-
 		if ('token' in e.detail) {
 			const tokenData = e.detail.token
 
@@ -43,8 +38,6 @@
 
 			tokens.update(tokens => {
 				const token = tokens.find(token => token.id === tokenData.id)
-				console.log(token);
-				
 				token.belongs = place
 				token.index = index
 				return tokens
@@ -64,7 +57,7 @@
 	{#if !game}
 		<label for='players' class='mt-10 mb-2 text-xl'> Number of players: </label>
 		<input name='players' type="number" bind:value={numberOfPlayers} class='text-black text-3xl font-bold text-center w-10'>
-		<button class='text-5xl p-8 mt-8 bg-secondary' on:click={() => game = new Game(numberOfPlayers)}> Start game </button>
+		<button class='text-5xl p-8 mt-8 bg-secondary' on:click={() => game = new Game(numberOfPlayers)}> New game </button>
 		
 	{:else}
 
@@ -75,10 +68,19 @@
 				<button disabled={activePlayer === numberOfPlayers - 1} on:click={() => activePlayer++}> Next </button>
 			</header>
 
+			<button on:click={() => game.draw(activePlayer)} 
+				disabled={$tokens.filter(token => token.belongs === Place.Stack).length <= 0}> 
+				Draw token 
+			</button>
+
 			<Hand hand={$players[activePlayer]} index={activePlayer} on:drop={handleDrop}/>
 		</main>
 
 		<Board sets={$board} on:drop={handleDrop}/>
+		
+		<div class="min-h-[1000px] w-10"></div>
+
+		<button on:click={() => game = null}> Finish game </button>
 	{/if}
 </body>
 
