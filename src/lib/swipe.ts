@@ -1,5 +1,3 @@
-import Swipe from 'swipejs';
-
 export function swipe(node: HTMLElement, callback) {
 	console.warn('NOT IMPLEMENTED');
 	alert("SWPIPING ISNT IMPLEMENTED, DUNCE")

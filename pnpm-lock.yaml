@@ -10,7 +10,6 @@ specifiers:
   svelte: ^3.44.0
   svelte-check: ^2.2.6
   svelte-preprocess: ^4.9.4
-  swipejs: ^2.3.1
   tailwindcss: ^3.0.7
   tippy.js: ^6.3.7
   tslib: ^2.3.1
@@ -19,7 +18,6 @@ specifiers:
 dependencies:
   '@fontsource/inter': 4.5.1
   interactjs: 1.10.11
-  swipejs: 2.3.1
   tippy.js: 6.3.7
 
 devDependencies:
@@ -1193,11 +1191,6 @@ packages:
     resolution: {integrity: sha512-aGgrNCip5PQFNfq9e9tmm7EYxWLVHoFsEsmKrtOeRD8dmoGDdyTQ+21xd7qgFd8MNdKGSYvg7F9dr+Tc0yDymg==}
     engines: {node: '>= 8'}
     dev: true
-
-  /swipejs/2.3.1:
-    resolution: {integrity: sha512-mUL5MKSVkpQ2/CMgurNNgiKNRKcRkkD1/bfe8f2Y5MZW74E99p3zCxBrV9C7goMmBY4J8lrH3Dm0IQvaV64UEQ==}
-    engines: {node: '>=10'}
-    dev: false
 
   /tailwindcss/3.0.7_16a290f6d0e3717bf6d2667234aebd30:
     resolution: {integrity: sha512-rZdKNHtC64jcQncLoWOuCzj4lQDTAgLtgK3WmQS88tTdpHh9OwLqULTQxI3tw9AMJsqSpCKlmcjW/8CSnni6zQ==}
