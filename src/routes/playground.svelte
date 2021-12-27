@@ -60,17 +60,18 @@ import GameInitializer from '$lib/playing/GameInitializer.svelte';
 	{:else}
 	<!-- <h1 class='mb-2 text-6xl sm:text-8xl'> Playground </h1> -->
 
-		<main class='font-bold rounded m-4 mb-0 flex flex-col' >
-			<header class='flex-1'>
-				<button disabled={activePlayer === 0} on:click={() => activePlayer--}> Previous </button>
-				<h2 class='text-6xl '> Player {activePlayer} </h2>
-				<button disabled={activePlayer === totalPlayers - 1} on:click={() => activePlayer++}> Next </button>
-			</header>
-
-			<button on:click={() => game.draw(activePlayer)} 
-				disabled={$tokens.filter(token => token.belongs === Place.Stack).length <= 0}> 
-				Draw token 
-			</button>
+		<main class='font-bold rounded m-4 mb-0 flex flex-col sm:flex-row' >
+			<div class='flex flex-col h-full sm:py-10'>
+				<header class='flex-1 sm:flex-col'>
+					<button disabled={activePlayer === 0} on:click={() => activePlayer--}> Previous </button>
+					<h2 class='text-6xl '> Player {activePlayer} </h2>
+					<button disabled={activePlayer === totalPlayers - 1} on:click={() => activePlayer++}> Next </button>
+				</header>
+				<button on:click={() => game.draw(activePlayer)} class='justify-self-end'
+					disabled={$tokens.filter(token => token.belongs === Place.Stack).length <= 0}>
+					Draw token
+				</button>
+			</div>
 
 			<Hand hand={$players[activePlayer]} index={activePlayer} on:drop={handleDrop}/>
 		</main>
