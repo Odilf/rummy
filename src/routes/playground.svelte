@@ -59,7 +59,7 @@
 
 {#key game}
 
-<body class='bg-primary mt-10' in:fly={{y: flyDistance, duration}} out:fly={{y: -flyDistance, duration}}>
+<body class='bg-primary' in:fly={{y: flyDistance, duration}} out:fly={{y: -flyDistance, duration}}>
 	<h1 class='mb-10 text-6xl sm:text-8xl'> Playground </h1>
 	{#if !game}
 		<label for='players' class='mt-10 mb-2 text-xl'> Number of players: </label>
@@ -75,11 +75,7 @@
 				<button disabled={activePlayer === numberOfPlayers - 1} on:click={() => activePlayer++}> Next </button>
 			</header>
 
-			<!-- {#key activePlayer} -->
-				<div class='shrink-0' in:fly={{x: 500}} out:fly={{x: -500}}>
-					<Hand hand={$players[activePlayer]} index={activePlayer} on:drop={handleDrop}/>
-				</div>
-			<!-- {/key} -->
+			<Hand hand={$players[activePlayer]} index={activePlayer} on:drop={handleDrop}/>
 		</main>
 
 		<Board sets={$board} on:drop={handleDrop}/>

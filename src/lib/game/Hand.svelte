@@ -15,7 +15,7 @@
 	}
 </script>
 
-<section class='flex flex-wrap p-4 m-4 bg-secondary rounded' use:dropzone on:drop={handler} on:dragenter={handler}>
+<section class='flex flex-wrap p-4 m-4 bg-secondary rounded-lg' use:dropzone on:drop={handler} on:dragenter={handler}>
 	{#each hand as token (token.id) }
 	<div animate:flip={{duration: 300}}>
 		<Token value={token.value} color={token.color} id={token.id} draggable/>

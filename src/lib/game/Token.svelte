@@ -16,7 +16,7 @@
 
 <Draggable {draggable} broadcast={{ token: { color: color, value: value, id: id }}}>
 	<div class="
-	token bg-white flex flex-col items-center p-4 m-1 font-black text-4xl rounded-xl select-none shadow-xl
+	token bg-white flex flex-col items-center p-2 sm:p-4 m-1 font-black text-4xl rounded-xl select-none shadow-xl
 	{draggable ? 'hover:scale-105 cursor-pointer' : ''} transition-all
 	"
 	style='--color: {getColor(color)}'

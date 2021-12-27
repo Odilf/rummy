@@ -14,8 +14,6 @@ function positionEvent(eventName: string, position: Position) {
 export function makeDraggable(node: HTMLElement, options: { broadcast: any }) {
 	const position = { x: 0, y: 0 }
 
-	console.log('assigning broadcasting', options.broadcast.token, 'to', node);
-	
 	node['broadcast'] = options.broadcast
 
 	interact(node).draggable({
