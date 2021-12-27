@@ -71,7 +71,7 @@
 			</header>
 
 			{#key activePlayer}
-				<div class='shrink-0' in:fly={{x: 500}} out:fly={{x: -500}} use:swipe={console.log}>
+				<div class='shrink-0' in:fly={{x: 500}} out:fly={{x: -500}}>
 					<Hand hand={$players[activePlayer]} index={activePlayer} on:drop={handleDrop}/>
 				</div>
 			{/key}
