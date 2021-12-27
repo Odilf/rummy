@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Draggable from '$lib/draggable/Draggable.svelte'
+	import { fly } from 'svelte/transition';
 	import { colorNames } from './colorNames'
-
 
 	export let color: number
 	export let value: number
@@ -10,11 +10,10 @@
 	export let draggable = true
 
 	let hovering = false
-	let shifting = false
+	let timeout
 
 	$: angle = (color % 4)*360/4 + 90*(1 - 1/(2**Math.floor(color/4)))
 	$: htmlColor = `hsl(${angle}, 30%, 50%)`
-	
 
 	async function getColorName(h, s, l) {
 		const hex = hslToHex(h, s, l)
@@ -42,34 +41,27 @@
 		};
 		return `${f(0)}${f(8)}${f(4)}`;
 	}
-
-	
-	
-
 </script>
-
-<svelte:window on:keydown={e => e.shiftKey && (shifting = true)} on:keyup={e => shifting = false}/>
 
 <Draggable {draggable} broadcast={{ token: { color: color, value: value, id: id }}}>
 	<div class="
-	 bg-white flex flex-col items-center p-2 sm:p-4 m-1 font-black text-4xl rounded-xl select-none shadow-md
-	{draggable ? 'hover:scale-105 cursor-pointer' : ''} transition-all
-	"
+	 bg-white flex flex-col items-center p-2 sm:p-4 sm:max-w-[67px] m-1 font-black text-4xl rounded-xl select-none shadow-md
+	{draggable ? 'hover:scale-105 cursor-pointer' : ''} transition-all"
 	style='color: {htmlColor}'
-	on:mouseenter={() => hovering = true}
-	on:mouseleave={() => hovering = false}
+	on:mouseenter={() => timeout = setTimeout(() => hovering = true, 500)}
+	on:mouseleave={() => { clearTimeout(timeout); hovering = false}}
 	>
 		{value}
-		{#if hovering && shifting}
-			<div class="absolute inset-0 bg-black bg-opacity-50 ronded-xl">
-				{#await getColorName(angle, 30, 50)}
-					Loading
-				{:then colorName} 
-					{colorName}
-				{/await}
-			</div>
+		{#if hovering}
+		<div class='position: absolute text-base -top-10 bg-black/50 rounded px-2 font-thin text-white text-center pointer-events-none' 
+		transition:fly={{y: -50, duration: 300}}>
+			{#await getColorName(angle, 30, 50)}
+				Loading...
+			{:then name} 
+				{name}
+			{/await}
+		</div>
 		{/if}
-		<!-- Circle -->
-		<div class="w-[35px] h-[35px] rounded-full" style='box-shadow: inset 0 0 4px hsla(0, 0%, 0%, 0.15);'/>
+		<!-- Circle --> <div class="w-[35px] h-[35px] rounded-full" style='box-shadow: inset 0 0 4px hsla(0, 0%, 0%, 0.15);'/>
 	</div>
 </Draggable>
