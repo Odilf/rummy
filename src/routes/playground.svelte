@@ -67,7 +67,7 @@ import GameInitializer from '$lib/playing/GameInitializer.svelte';
 					<h2 class='text-6xl '> Player {activePlayer} </h2>
 					<button disabled={activePlayer === totalPlayers - 1} on:click={() => activePlayer++}> Next </button>
 				</header>
-				<button on:click={() => game.draw(activePlayer)} class='justify-self-end'
+				<button on:click={() => game.draw(activePlayer)} class='justify-self-end bg-secondary/70 py-2'
 					disabled={$tokens.filter(token => token.belongs === Place.Stack).length <= 0}>
 					Draw token
 				</button>
