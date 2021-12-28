@@ -1,5 +1,6 @@
 import { writable, derived } from 'svelte/store'
 import type { Writable, Readable } from "svelte/store"
+import { range } from '$lib/utils'
 
 const default_colors = 3
 const default_values = 13
@@ -123,12 +124,6 @@ export class Game {
 			return new Player(name, i)
 		})
 	}
-}
-
-function range(a: number, b: number = null): number[] {
-	const size = b == null ? a : (b - a)
-	const adder = b == null ? 0 : a
-	return [...Array(size).keys()].map(i => i + adder)
 }
 
 export function isStair(set: Token[]): boolean {
