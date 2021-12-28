@@ -54,7 +54,7 @@
 		{value}
 		{#if hovering}
 		<div class='position: absolute text-base -top-10 bg-black/50 rounded px-2 font-thin text-white text-center pointer-events-none' 
-		transition:fly={{y: -50, duration: 300}}>
+		in:fly={{y: -50, duration: 300}}>
 			{#await getColorName(angle, 30, 50)}
 				Loading...
 			{:then name} 
