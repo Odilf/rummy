@@ -28,13 +28,31 @@ function buildDefaultTokens(colors = default_colors, values = default_values): T
 	}))
 }	
 
-
 export interface Token {
 	value: number
 	color: number
 	belongs?: Place
 	index?: number
 	id?: number
+}
+
+export class Player {
+	name: string
+	index: number
+
+	getPossessiveName(): string {
+		const endsInS = this.name.charAt(this.name.length - 1).toLowerCase() === 's'
+		return this.name + (endsInS ? "'" : "'s")
+	}
+
+	constructor(name: string, index: number) {
+		this.name = name
+		this.index = index
+	}
+
+	static defaultNames(amount: number): string[] {
+		return range(amount).map(i => `Player ${i + 1}`)
+	}
 }
 
 function shuffleArray<T>(array: Array<T>) {
@@ -55,52 +73,54 @@ function readStore<T>(store: Readable<T>): T {
 export class Game {
 	turn: number = 0
 	tokens: Writable<Token[]> = writable(null)
-	totalPlayers: number
+	players: Player[]
 
-	stack = derived(this.tokens, tokens => shuffleArray(tokens.filter(token => token.belongs === Place.Stack)))
-	players = derived(this.tokens, tokens => range(this.totalPlayers)
-											.map(index => tokens
-											.filter(token => 
-												token.belongs === Place.Hand && 
-												token.index === index)))
+	subscribe(callback) {
+		return this.tokens.subscribe(callback)
+	}
 
-	board = derived(this.tokens, tokens => {
+	static getBoard(tokens: Token[]): Token[][] {
 		const board_tokens = tokens.filter(token => token.belongs === Place.Board)
 		const set = new Set(board_tokens.map(token => token.index))
 
 		return [...set].sort().map(index => board_tokens.filter(token => token.index === index))
-	})
+	}
 
-	draw = (player_index: number): void => {
-		const stack = readStore(this.stack)
-		if (stack.length <= 0) { console.warn("Not enough cards to draw"); return }
+	static getHand(tokens: Token[], index: number): Token[] {
+		return tokens.filter(token => token.belongs === Place.Hand && token.index === index)
+	}
 
-		this.tokens.update(tokens => {
-			const token = tokens.find(v => v === stack[0])
+	static getStack(tokens: Token[]) {
+		return tokens.filter(token => token.belongs === Place.Stack)
+	}
+
+	static stackSize(tokens: Token[]): number {
+		return tokens.filter(token => token.belongs === Place.Stack).length
+	}
+
+	draw = (playerIndex: number): void => {
+		if (Game.stackSize(readStore(this.tokens)) <= 0) { console.warn("Not enough cards to draw"); return }
+
+		this.tokens.update(tokens => {			
+			const stack = Game.getStack(tokens)
+			const find = stack[Math.floor(Math.random() * stack.length)]
+			const token = tokens.find(token => token === find)
 			token.belongs = Place.Hand
-			token.index = player_index
+			token.index = playerIndex
 			return tokens
 		})
 	}
 
-	moveTo = (selection: Token, place: Place, index: number) => {
-		this.tokens.update(tokens => {
-			const i = tokens.indexOf(selection)
-			tokens[i].belongs = place 
-			tokens[i].index = index
-			return tokens
-		})	
+	passTurn = () => {
+		this.turn = (this.turn + 1) % this.players.length
 	}
 
-	moveToBoard = (selection: Token, index: number): void => this.moveTo(selection, Place.Board, index)
-	moveToHand = (selection: Token, index: number): void => this.moveTo(selection, Place.Hand, index)
+	constructor(playerNames: string[], values = default_values, drawAmount = 14) {
+		this.tokens.set(buildDefaultTokens(playerNames.length, values))
 
-	constructor(totalPlayers: number, values = default_values) {
-		this.tokens.set(buildDefaultTokens(totalPlayers, values))
-		this.totalPlayers = totalPlayers
-
-		range(totalPlayers).forEach(player => {
-			range(14).forEach(() => this.draw(player))
+		this.players = playerNames.map((name, i) => {
+			range(drawAmount).forEach(() => this.draw(i))
+			return new Player(name, i)
 		})
 	}
 }
