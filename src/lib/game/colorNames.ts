@@ -6,5 +6,3 @@ export let colorNames = writable({
 	"8059a6": "Highlighter Lavender",
 	"a65959": "Cheek Red"
 })
-
-colorNames.subscribe(console.log)
