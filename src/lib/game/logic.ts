@@ -1,4 +1,5 @@
-import { writable, derived } from 'svelte/store'
+import { writable } from 'svelte/store'
+import type { Subscriber } from 'svelte/store'
 import type { Writable, Readable } from "svelte/store"
 import { range } from '$lib/utils'
 
@@ -46,23 +47,14 @@ export class Player {
 		return this.name + (endsInS ? "'" : "'s")
 	}
 
-	constructor(name: string, index: number) {
-		this.name = name
+	constructor(name: string, index: number, autoPlayerEmpty = true) {
+		this.name = autoPlayerEmpty ? (name || `Player ${index + 1}`) : name
 		this.index = index
 	}
 
 	static defaultNames(amount: number): string[] {
 		return range(amount).map(i => `Player ${i + 1}`)
 	}
-}
-
-function shuffleArray<T>(array: Array<T>) {
-	array = [...array]
-	for (let i = array.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1));
-		[array[i], array[j]] = [array[j], array[i]]
-	}
-	return array
 }
 
 function readStore<T>(store: Readable<T>): T {
@@ -76,7 +68,7 @@ export class Game {
 	tokens: Writable<Token[]> = writable(null)
 	players: Player[]
 
-	subscribe(callback) {
+	subscribe(callback: Subscriber<Token[]>) {
 		return this.tokens.subscribe(callback)
 	}
 
