@@ -1,4 +1,4 @@
-import { range } from '$lib/utils'
+import { range, assignIfNull } from '$lib/utils'
 
 const default_colors = 3
 const default_values = 13
@@ -83,7 +83,9 @@ export class Game {
 		return tokens
 	}
 
-	static newGame(players: Player[], tokenOptions = this.defaultTokenOptions ): Token[] {
+	static newGame(players: Player[], tokenOptions: TokenOptions = {}): Token[] {
+		
+		tokenOptions = Game.parseTokenOptions(tokenOptions, players.length)
 
 		// Create tokens
 		let tokens = this.buildDefaultTokens(tokenOptions.colorRange, tokenOptions.valueRange, tokenOptions.repeat)
@@ -96,12 +98,21 @@ export class Game {
 		return tokens
 	}
 
-	static defaultTokenOptions = {
-		colorRange: 4,
-		valueRange: 12,
-		drawAmount: 14,
-		repeat: 2
+	static parseTokenOptions(options: TokenOptions, players: number): TokenOptions {
+		options.colorRange = assignIfNull(options.colorRange, players)
+		options.valueRange = assignIfNull(options.valueRange, 12)
+		options.drawAmount = assignIfNull(options.drawAmount, 14)
+		options.repeat = assignIfNull(options.repeat, 2)
+
+		return options
 	}
+}
+
+interface TokenOptions {
+	colorRange?: number,
+	valueRange?: number,
+	drawAmount?: number, 
+	repeat?: number,
 }
 
 export class TokenSet {
