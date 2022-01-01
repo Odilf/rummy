@@ -1,11 +1,12 @@
 <script lang='ts'>
-	import Token from "./Token.svelte"
-	import { dropzone } from "$lib/draggable/draggable";
 	import { createEventDispatcher } from "svelte";
-	import { isGroup, isStair } from "./logic";
+	import { dropzone } from "$lib/draggable/draggable";
+	import Token from "./Token.svelte"
+	import { TokenSet } from "./logic";
+	import type { Token as TokenType } from "./logic";
 	import { fade } from "svelte/transition";
 	
-	export let tokens: { value: number, color: number, id?: number }[] = []
+	export let tokens: TokenType[] = []
 	export let index: number
 	
 	const dispatch = createEventDispatcher()
@@ -14,12 +15,14 @@
 		dispatch(e.type, { ...e.detail, setIndex: index })
 	}
 
-	$: type = isGroup(tokens) ? 'group' : isStair(tokens) ? 'stair' : 'invalid'
+	$: type = TokenSet.isGroup(tokens) ? 'group' : TokenSet.isStair(tokens) ? 'stair' : 'invalid'
 
 	// If tokens don't have an id
-	$: if (tokens.some(token => token.id == null)) {
-		tokens.forEach((token, i) => token.id = i)
-	}
+	$: tokens = tokens.map((token, i) => {
+		token.id = token.id || i
+		return token
+	})
+	
 </script>
 
 <div class='first-letter:w-fit flex flex-row rounded-xl w-in h-fit m-2 shadow-xl bg-white/50 {type}'

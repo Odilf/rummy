@@ -1,6 +1,3 @@
-import { writable } from 'svelte/store'
-import type { Subscriber } from 'svelte/store'
-import type { Writable, Readable } from "svelte/store"
 import { range } from '$lib/utils'
 
 const default_colors = 3
@@ -13,23 +10,6 @@ export enum Place {
 	Other = "Other",
 }
 
-function buildDefaultTokens(colors = default_colors, values = default_values): Token[] {
-	let i = -2
-	return range(colors).flatMap(color => range(1, values).flatMap(value => {
-		i++
-		return range(2).map(() => {
-			i++
-			return {
-				value: value,
-				color: color,
-				belongs: Place.Stack,
-				index: i,
-				id: i,
-			}
-		})
-	}))
-}	
-
 export interface Token {
 	value: number
 	color: number
@@ -40,16 +20,11 @@ export interface Token {
 
 export class Player {
 	name: string
-	index: number
+	index?: number
 
-	getPossessiveName(): string {
-		const endsInS = this.name.charAt(this.name.length - 1).toLowerCase() === 's'
-		return this.name + (endsInS ? "'" : "'s")
-	}
-
-	constructor(name: string, index: number, autoPlayerEmpty = true) {
-		this.name = autoPlayerEmpty ? (name || `Player ${index + 1}`) : name
-		this.index = index
+	static getPossessiveName(name: string): string {
+		const endsInS = name.charAt(name.length - 1).toLowerCase() === 's'
+		return name + (endsInS ? "'" : "'s")
 	}
 
 	static defaultNames(amount: number): string[] {
@@ -57,33 +32,19 @@ export class Player {
 	}
 }
 
-function readStore<T>(store: Readable<T>): T {
-	let returnValue: T
-	store.subscribe(v => returnValue = v)()
-	return returnValue
-}
-
 export class Game {
-	turn: number = 0
-	tokens: Writable<Token[]> = writable(null)
-	players: Player[]
-
-	subscribe(callback: Subscriber<Token[]>) {
-		return this.tokens.subscribe(callback)
-	}
-
-	static getBoard(tokens: Token[]): Token[][] {
+	static board(tokens: Token[]): Token[][] {
 		const board_tokens = tokens.filter(token => token.belongs === Place.Board)
 		const set = new Set(board_tokens.map(token => token.index))
 
 		return [...set].sort().map(index => board_tokens.filter(token => token.index === index))
 	}
 
-	static getHand(tokens: Token[], index: number): Token[] {
+	static hand(tokens: Token[], index: number): Token[] {
 		return tokens.filter(token => token.belongs === Place.Hand && token.index === index)
 	}
 
-	static getStack(tokens: Token[]) {
+	static stack(tokens: Token[]) {
 		return tokens.filter(token => token.belongs === Place.Stack)
 	}
 
@@ -91,49 +52,76 @@ export class Game {
 		return tokens.filter(token => token.belongs === Place.Stack).length
 	}
 
-	draw = (playerIndex: number): void => {
-		if (Game.stackSize(readStore(this.tokens)) <= 0) { console.warn("Not enough cards to draw"); return }
+	static draw(tokens: Token[], playerIndex: number): Token[] {
+		if (Game.stackSize(tokens) <= 0) { console.warn("Not enough cards to draw"); return }
 
-		this.tokens.update(tokens => {			
-			const stack = Game.getStack(tokens)
-			const find = stack[Math.floor(Math.random() * stack.length)]
-			const token = tokens.find(token => token === find)
-			token.belongs = Place.Hand
-			token.index = playerIndex
-			return tokens
+		const stack = Game.stack(tokens)
+		const find = stack[Math.floor(Math.random() * stack.length)]
+		const token = tokens.find(token => token === find)
+		token.belongs = Place.Hand
+		token.index = playerIndex
+		return tokens
+	}
+
+	static buildDefaultTokens(colorRange = 4, valueRange = 12, repeat = 2): Token[] {
+		let tokens: Token[] = []
+		for (let c = 0; c < colorRange; c++) {
+			for (let v = 1; v <= valueRange; v++) {
+				for (let r = 0; r < repeat; r++) {
+					const i = c * valueRange + v + r * (valueRange * colorRange)
+					tokens.push({
+						color: c,
+						value: v,
+						belongs: Place.Stack,
+						index: i,
+						id: i,
+					})
+				}
+			}
+		}
+
+		return tokens
+	}
+
+	static newGame(players: Player[], tokenOptions = this.defaultTokenOptions ): Token[] {
+
+		// Create tokens
+		let tokens = this.buildDefaultTokens(tokenOptions.colorRange, tokenOptions.valueRange, tokenOptions.repeat)
+
+		// Draw cards
+		players.forEach(player => {
+			range(tokenOptions.drawAmount).forEach(() => tokens = this.draw(tokens, player.index))
 		})
+
+		return tokens
 	}
 
-	passTurn = () => {
-		this.turn = (this.turn + 1) % this.players.length
-	}
-
-	constructor(playerNames: string[], values = default_values, drawAmount = 14) {
-		this.tokens.set(buildDefaultTokens(playerNames.length, values))
-
-		this.players = playerNames.map((name, i) => {
-			range(drawAmount).forEach(() => this.draw(i))
-			return new Player(name, i)
-		})
+	static defaultTokenOptions = {
+		colorRange: 4,
+		valueRange: 12,
+		drawAmount: 14,
+		repeat: 2
 	}
 }
 
-export function isStair(set: Token[]): boolean {
-	if (set.length < 3) return false
-	const sameColor = set.every(token => token.color === set[0].color)
-	const stair = set.slice(0, -1).every((token, i) => token.value === set[i + 1].value - 1)
-
-	return sameColor && stair
-}
-
-export function isGroup(set: Token[]): boolean {
-	if (set.length < 3) return false
-	const sameValue = set.every(token => token.value === set[0].value)
-	const differentColors = new Set(set.map(token => token.color)).size === set.length
-
-	return sameValue && differentColors
-}
-
-export function isValidBoard(sets: Token[][]) {
-	return sets.every(set => isGroup(set) || isStair(set))
+export class TokenSet {
+	static isStair(set: Token[]): boolean {
+		if (set.length < 3) return false
+		const sameColor = set.every(token => token.color === set[0].color)
+		const stair = set.slice(0, -1).every((token, i) => token.value === set[i + 1].value - 1)
+	
+		return sameColor && stair
+	}
+	
+	static isGroup(set: Token[]): boolean {
+		if (set.length < 3) return false
+		const sameValue = set.every(token => token.value === set[0].value)
+		const differentColors = new Set(set.map(token => token.color)).size === set.length
+	
+		return sameValue && differentColors
+	}
+	
+	static isValidBoard(sets: Token[][]) {
+		return sets.every(set => TokenSet.isGroup(set) || TokenSet.isStair(set))
+	}
 }

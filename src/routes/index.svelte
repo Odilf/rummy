@@ -34,8 +34,8 @@
 
 
 <body class='text-xl pt-10 bg-primary overflow-x-hidden'>
-	<main class='z-10'>
-		<h1 class='pt-[10%] drop-shadow'> Rummy </h1>
+	<main class='z-10 flex flex-col items-center'>
+		<h1 class='pt-[10%] drop-shadow text-8xl'> Rummy </h1>
 		<p class='text-gray-400 pt-6 drop-shadow'> Play the classic board game online! </p>
 		<div class="flex mt-5 flex-col md:flex-row">
 			{#each [
@@ -44,7 +44,7 @@
 				['FFA online', '/battle'],
 			] as [description, link]}
 				<button class='p-10 m-2 text-3xl font-bold bg-secondary/50 backdrop-blur flex-1 drop-shadow'
-				on:click={() => location.href = link}> {description} </button>
+				on:click={() => location.href = link} disabled={link === '/battle'}> {description} </button>
 			{/each}
 		</div>
 
