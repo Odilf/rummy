@@ -1,5 +1,5 @@
 import { browser } from "$app/env";
-import { Game, Player } from "$lib/game/logic";
+import type { Game, Player } from "$lib/game/logic";
 import type { Token } from "$lib/game/logic";
 import { writable } from "svelte/store";
 import type { Writable } from "svelte/store";
@@ -10,25 +10,16 @@ function replacer(key: string, value: any): any {
 	console.log('Saving', this[key]);
 	
 	if (this[key] instanceof Date) {
-		return this[key].getTime()
-	} else 
-	if (typeof this[key] === 'object' && !(this[key] instanceof Game) && 'subscribe' in this[key]) {
-		console.log('Stringifying store', this[key]);
-		let storeValue
-
-		this[key].subscribe(v => storeValue = v)()
-
-		console.log('Saving value', storeValue);	
-		
-		return storeValue
+		return { type: 'Date', time: this[key].getTime()}
 	} else {
 		return value
 	}
 }
 
+
 function reviver(key: string, value: any): any {
-	if (typeof this[key] === 'number' && this[key] > 1000) {
-		return new Date(this[key]) 
+	if (this[key] != null && typeof this[key] === 'object' && 'type' in this[key] && this[key].type === 'Date') {
+		return new Date(this[key].time) 
 	} else {
 		return value
 	}
@@ -65,3 +56,7 @@ interface LocalGame {
 }
 
 export type SavedGame = PlaygroundGame | LocalGame
+
+export function deleteGame(game: SavedGame) {
+	savedGames.update(games => games.filter(v => v !== game))
+}

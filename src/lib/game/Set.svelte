@@ -2,8 +2,8 @@
 	import { createEventDispatcher } from "svelte";
 	import { dropzone } from "$lib/draggable/draggable";
 	import Token from "./Token.svelte"
-	import { TokenSet } from "./logic";
-	import type { Token as TokenType } from "./logic";
+	import { isGroup, isStair } from "./logic/set";
+	import type { Token as TokenType } from "./logic/token";
 	import { fade } from "svelte/transition";
 	
 	export let tokens: TokenType[] = []
@@ -15,7 +15,7 @@
 		dispatch(e.type, { ...e.detail, setIndex: index })
 	}
 
-	$: type = TokenSet.isGroup(tokens) ? 'group' : TokenSet.isStair(tokens) ? 'stair' : 'invalid'
+	$: type = isGroup(tokens) ? 'group' : isStair(tokens) ? 'stair' : 'invalid'
 
 	// If tokens don't have an id
 	$: tokens = tokens.map((token, i) => {

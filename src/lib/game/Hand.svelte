@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Token as TokenType } from './logic'
+	import type { Token as TokenType } from './logic/token'
 	import Token from './Token.svelte'
 	import { dropzone } from "$lib/draggable/draggable";
 	import { createEventDispatcher } from 'svelte';

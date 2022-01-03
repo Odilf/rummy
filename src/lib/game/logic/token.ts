@@ -12,3 +12,11 @@ export interface Token {
 	index?: number
 	id?: number
 }
+
+export function isEqual(a: Token, b: Token): boolean {
+	return a.belongs === b.belongs &&
+	a.color === b.color &&
+	a.id == b.id &&
+	a.index == b.index &&
+	a.value == b.value
+}

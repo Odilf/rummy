@@ -1,8 +1,8 @@
 <script>
-	import SavedGames from "$lib/playing/saving/GameGallery.svelte";
+	import GameGallery from "$lib/playing/saving/GameGallery.svelte";
 </script>
 
 
 <body class='bg-primary'>
-	<SavedGames/>
+	<GameGallery/>
 </body>

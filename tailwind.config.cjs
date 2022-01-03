@@ -10,6 +10,7 @@ module.exports = {
 			'primary': '#c19071',
 			'secondary': '#99caff',
 			'success': '#21db2d',
+			'warn': '#9e1c1c',
 			'group': '#ff9d00',
 			'stair': '#ffd500',
 			'gray': '#888888',

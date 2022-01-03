@@ -87,3 +87,7 @@ interface TokenOptions {
 	drawAmount?: number, 
 	repeat?: number,
 }
+
+export function clone(tokens: Token[]) {
+	return [...tokens].map(token => Object.assign({}, token))
+}

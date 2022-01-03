@@ -24,7 +24,9 @@
   "type": "module",
   "dependencies": {
     "@fontsource/inter": "^4.5.1",
+    "@types/gun": "^0.9.3",
     "color-name-list": "^8.37.0",
+    "gun": "^0.2020.1235",
     "interactjs": "^1.10.11",
     "tippy.js": "^6.3.7"
   }

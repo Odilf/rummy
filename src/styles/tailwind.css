@@ -35,6 +35,11 @@
 	}
 
 	button:disabled {
+		@apply text-opacity-50; 
 		@apply text-[#555]
+	}
+
+	input {
+		@apply text-black;
 	}
 }

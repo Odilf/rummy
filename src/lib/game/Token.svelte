@@ -1,13 +1,17 @@
 <script lang="ts">
 	import Draggable from '$lib/draggable/Draggable.svelte'
-	import { fly } from 'svelte/transition';
+	import { fly, crossfade } from 'svelte/transition';
 	import { colorNames } from './colorNames'
 
 	export let color: number
 	export let value: number
-	export let id: number = null
+	export let id: number = 69
 
 	export let draggable = true
+
+	const [ send, recieve ] = crossfade({
+		duration: d => 2*d,
+	})
 
 	let hovering = false
 	let timeout
@@ -20,8 +24,7 @@
 		if ($colorNames[hex]) return ($colorNames[hex])
 
 		console.warn('Using color API');
-		const response = await fetch(`https://api.color.pizza/v1/${hex}`)
-							  .then(response => response.json())
+		const response = await (await fetch(`https://api.color.pizza/v1/${hex}`)).json()
 		
 		colorNames.update(colorNames => {
 			colorNames[hex] = response.colors[0].name
@@ -54,7 +57,10 @@
 		{value}
 		{#if hovering}
 		<div class='position: absolute text-base -top-10 bg-black/50 rounded px-2 font-thin text-white text-center pointer-events-none' 
-		in:fly={{y: -50, duration: 300}}>
+		in:fly={{y: -20, duration: 300}}
+		>
+		<!-- in:recieve={{key: id}}
+		out:send={{key: id}} -->
 			{#await getColorName(angle, 30, 50)}
 				Loading...
 			{:then name} 
@@ -62,6 +68,7 @@
 			{/await}
 		</div>
 		{/if}
-		<!-- Circle --> <div class="w-[35px] h-[35px] rounded-full" style='box-shadow: inset 0 0 4px hsla(0, 0%, 0%, 0.15);'/>
+		<!-- Circle --> 
+		<div class="w-[35px] h-[35px] rounded-full" style='box-shadow: inset 0 0 4px hsla(0, 0%, 0%, 0.15);'/>
 	</div>
 </Draggable>
