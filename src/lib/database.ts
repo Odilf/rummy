@@ -58,11 +58,9 @@ export async function createGame(uid: string, creatorUsername: string) {
 
 	await set(gameRef, {
 		settings: 'default',
-		players: [],
+		players: [ creatorUsername ],
 		started: false,
 	})
-
-	return await joinGame(uid, creatorUsername, 0)
 }
 
 export async function joinGame(uid: string, joinAs: string, index: number) {
