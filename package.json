@@ -24,10 +24,12 @@
   "type": "module",
   "dependencies": {
     "@fontsource/inter": "^4.5.1",
+    "@lukeed/uuid": "^2.0.0",
     "@types/gun": "^0.9.3",
     "color-name-list": "^8.37.0",
-    "gun": "^0.2020.1235",
+    "firebase": "^9.6.1",
     "interactjs": "^1.10.11",
-    "tippy.js": "^6.3.7"
+    "tippy.js": "^6.3.7",
+    "uid": "^2.0.0"
   }
 }

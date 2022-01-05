@@ -4,14 +4,14 @@
 
 	import { isEqual, Token, Place } from "$lib/game/logic/token";
 	import { isValidBoard } from "$lib/game/logic/set";
-	import { Player, getPossessiveName } from "$lib/game/logic/player";
+	import { getPossessiveName } from "$lib/game/logic/player";
 	import { getHand, getBoard, lowestUnusedIndex, draw, clone } from "$lib/game/logic/game";
 	
-	import Overlay from "$lib/Overlay.svelte"
+	import Overlay from "$lib/UI/Overlay.svelte"
 	import { fly } from "svelte/transition";
 
 
-	export let players: Player[]
+	export let players: string[]
 	export let tokens: Token[]
 	let turn: number = 0
 	
@@ -74,14 +74,14 @@
 
 <Overlay bind:disabled={disableOverlay} fragile={false} let:close>
 	<h1 class='text-5xl p-5'>
-		{getPossessiveName(players[modTurn].name)} turn
+		{getPossessiveName(players[modTurn])} turn
 	</h1>
 	<button class='bg-black p-5 text-3xl' on:click={() => close()}> Start </button>
 </Overlay>
 
 <main class='font-bold rounded m-4 mb-0 flex flex-col' >
 	<div class='flex flex-col items-center h-full sm:py-5'>
-		<h2 class='text-6xl text-center m-4'> {getPossessiveName(players[modTurn].name)} turn </h2>
+		<h2 class='text-6xl text-center m-4'> {getPossessiveName(players[modTurn])} turn </h2>
 		<button on:click={() => pass(turn + 1)} class='bg-secondary/70 p-2 w-fit' disabled={!isValidBoard(getBoard(tokens))}>
 			{hasPlayed ? 'Pass' : 'Draw and pass'}
 		</button>

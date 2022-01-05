@@ -33,20 +33,3 @@ use:dropzone on:drop={handler} on:dragenter={handler}>
 		</div>	
 	{/each}
 </div>
-
-<style lang='postcss'>
-	div {
-		transition: all 1s;
-		/* @apply bg-primary */
-	}
-	.invalid {
-		/* @apply shadow-debug bg-debug */
-	}
-	.group {
-		/* @apply shadow-group/30 bg-group/30 */
-	}
-
-	.stair {
-		/* @apply shadow-stair/30 bg-stair/30 */
-	}
-</style>

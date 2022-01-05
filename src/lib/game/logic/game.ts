@@ -1,7 +1,6 @@
 import { range, assignIfNull } from "$lib/utils"
 import type { Token } from "./token"
 import { Place } from "./token"
-import type { Player } from "./player"
 
 export function getBoard(tokens: Token[]): Token[][] {
 	const board_tokens = tokens.filter(token => token.belongs === Place.Board)
@@ -53,16 +52,18 @@ export function buildDefaultTokens(colorRange = 4, valueRange = 12, repeat = 2):
 	return tokens
 }
 
-export function newGame(players: Player[], tokenOptions: TokenOptions = {}): Token[] {
+export function newGame(players: string[], tokenOptions: TokenOptions = {}): Token[] {
 	
 	tokenOptions = parseTokenOptions(tokenOptions, players.length)
+	console.log('Creating game with tokenOptions', tokenOptions);
+	
 
 	// Create tokens
 	let tokens = buildDefaultTokens(tokenOptions.colorRange, tokenOptions.valueRange, tokenOptions.repeat)
 
 	// Draw cards
-	players.forEach(player => {
-		range(tokenOptions.drawAmount).forEach(() => tokens = draw(tokens, player.index))
+	players.forEach((_, i) => {
+		range(tokenOptions.drawAmount).forEach(() => tokens = draw(tokens, i))
 	})
 
 	return tokens

@@ -4,10 +4,9 @@
 
 	import type { Token } from "$lib/game/logic/token";
 	import { Place } from "$lib/game/logic/token";
-	import type { Player } from "$lib/game/logic/player";
 	import { getHand, getBoard, stackSize, lowestUnusedIndex, draw } from "$lib/game/logic/game";
 
-	export let players: Player[]
+	export let players: string[]
 	export let tokens: Token[]
 	let activePlayer: number = 0
 
@@ -40,7 +39,7 @@
 	<div class='flex flex-col h-full sm:py-10'>
 		<header class='flex-1 sm:flex-col'>
 			<button disabled={activePlayer === 0} on:click={() => activePlayer--}> Previous </button>
-			<h2 class='text-6xl text-right'> {players[activePlayer].name} </h2>
+			<h2 class='text-6xl text-right'> {players[activePlayer]} </h2>
 			<button disabled={activePlayer === players.length - 1} on:click={() => activePlayer++}> Next </button>
 		</header>
 		<button on:click={() => tokens = draw(tokens, activePlayer)} class='justify-self-end bg-secondary/70 py-2'

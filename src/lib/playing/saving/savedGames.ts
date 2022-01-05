@@ -1,6 +1,5 @@
 import { browser } from "$app/env";
-import type { Game, Player } from "$lib/game/logic";
-import type { Token } from "$lib/game/logic";
+import type { Token } from "$lib/game/logic/token";
 import { writable } from "svelte/store";
 import type { Writable } from "svelte/store";
 
@@ -42,14 +41,14 @@ if (browser) {
 
 interface PlaygroundGame {
 	tokens: Token[]
-	players: Player[]
+	players: string[]
 	date: Date
 	name?: string
 }
 
 interface LocalGame {
 	tokens: Token[]
-	players: Player[]
+	players: string[]
 	turn: number
 	date: Date
 	name?: string

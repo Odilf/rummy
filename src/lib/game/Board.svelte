@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Set from './Set.svelte'
-	import type { Token } from './logic'
+	import type { Token } from './logic/token'
 	import { dropzone } from '$lib/draggable/draggable'
 	import { flip } from 'svelte/animate';
 

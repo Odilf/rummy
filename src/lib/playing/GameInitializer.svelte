@@ -4,11 +4,10 @@
 	import Dialog from "$lib/UI/Dialog.svelte";
 	
 	import type { Token } from '$lib/game/logic/token'
-	import type { Player } from '$lib/game/logic/player'
 	import { newGame } from '$lib/game/logic/game'
 	import { savedGames } from "./saving/savedGames";
 
-	import Overlay from "$lib/Overlay.svelte";
+	import Overlay from "$lib/UI/Overlay.svelte";
 	import GameGallery from "./saving/GameGallery.svelte";
 
 
@@ -17,13 +16,13 @@
 	let browsingGames = false
 	
 	let totalPlayers: number = 4
-	let players: Player[] = []
+	let players: string[] = []
 	let tokens: Token[] = []
 
 	let savedName: string = ''
 
 	$: while (players.length < totalPlayers) {
-		players = [...players, { name: '', index: players.length }]
+		players = [...players, '']
 	}
 	
 	
@@ -31,7 +30,7 @@
 		started = true
 		tokens = newGame(players)
 		players = players.map(player => {
-			player.name = player.name || `Player ${player.index + 1}`
+			player = player || `Player ${players.indexOf(player) + 1}`
 			return player
 		})
 	}
@@ -110,7 +109,7 @@
 						Player names
 					</h3>
 					{#each players.slice(0, totalPlayers) as player, i}
-						<input bind:value={player.name} placeholder='Player {i + 1}' in:fly
+						<input bind:value={player} placeholder='Player {i + 1}' in:fly
 						class='text-black text-center my-2 py-2 rounded shadow border-2 border-black/20'>
 					{/each}
 					<button class='text-black text-2xl' on:click={() => totalPlayers++}> + </button>

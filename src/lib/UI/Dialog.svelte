@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Overlay from "$lib/Overlay.svelte";
+	import Overlay from "$lib/UI/Overlay.svelte";
 	import { createEventDispatcher } from "svelte";
 
 	const dispatch = createEventDispatcher()

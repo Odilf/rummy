@@ -1,3 +1,7 @@
+<script context="module">
+	export const prerender = true;
+</script>
+
 <script lang='ts'>
 	import Token from "$lib/game/Token.svelte";
 	import Rules from "$lib/Rules.svelte";
@@ -26,8 +30,6 @@
 				r: 360 * Math.random(),
 			};
 		}).sort((a, b) => a.x - b.x)
-
-		console.log(confetti);
 		
 </script>
 
@@ -39,12 +41,12 @@
 		<p class='text-gray-400 pt-6 drop-shadow'> Play the classic board game online! </p>
 		<div class="flex mt-5 flex-col md:flex-row">
 			{#each [
-				['Playground', '/playground'],
-				['Local turn based', '/local'],
-				['FFA online', '/battle'],
+				['Playground', 'play/playground'],
+				['Local turn based', 'play/local'],
+				['Online', '/online/create'],
 			] as [description, link]}
 				<button class='p-10 m-2 text-3xl font-bold bg-secondary/50 backdrop-blur flex-1 drop-shadow'
-				on:click={() => location.href = link} disabled={link === '/battle'}> {description} </button>
+				on:click={() => location.href = link}> {description} </button>
 			{/each}
 		</div>
 

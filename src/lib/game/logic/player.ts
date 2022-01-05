@@ -1,11 +1,7 @@
 import { range } from '$lib/utils'
 
-export interface Player {
-	name: string
-	index?: number
-
-}
 export function getPossessiveName(name: string): string {
+	name = name.split(' ')[0]
 	const endsInS = name.charAt(name.length - 1).toLowerCase() === 's'
 	return name + (endsInS ? "'" : "'s")
 }

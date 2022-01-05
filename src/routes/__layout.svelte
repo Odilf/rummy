@@ -2,4 +2,6 @@
 	import '../styles/tailwind.css'
 </script>
 
-<slot/>
+<body class='bg-primary w-screen flex-wrap'>
+	<slot/>
+</body>
