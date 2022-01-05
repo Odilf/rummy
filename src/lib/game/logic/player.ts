@@ -1,4 +1,4 @@
-import { range } from '$lib/utils'
+import { range } from '$lib/utils/'
 
 export function getPossessiveName(name: string): string {
 	name = name.split(' ')[0]

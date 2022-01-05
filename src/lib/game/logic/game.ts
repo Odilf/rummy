@@ -1,4 +1,4 @@
-import { range, assignIfNull } from "$lib/utils"
+import { range, assignIfNull } from "$lib/utils/"
 import type { Token } from "./token"
 import { Place } from "./token"
 
