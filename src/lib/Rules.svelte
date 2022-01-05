@@ -1,10 +1,8 @@
 <script>
 	import Set from "$lib/game/Set.svelte";
-	import Token from "$lib/game/Token.svelte"
-
 </script>
 
-<main class="bg-white min-w-full text-black flex flex-col min-h-full">
+<main class="bg-white text-black mt-36 flex flex-col pt-[100px] rounded-t-[100px]">
 	<h2 class='text-center font-extrabold text-5xl'> How to play </h2>
 
 	<p class='text-center mt-5'>Join tokens by making sets of either groups or stairs!</p>
@@ -33,7 +31,7 @@
 
 <style lang='postcss'>
 	.card {
-		@apply bg-secondary flex-shrink rounded-xl p-5 m-4 flex flex-col justify-center shadow;
+		@apply bg-secondary flex-shrink rounded-xl p-5 m-4 flex flex-col justify-center shadow text-white;
 		width: 300px;
 	}
 </style>

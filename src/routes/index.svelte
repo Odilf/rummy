@@ -35,8 +35,8 @@
 
 
 
-<body class='text-xl pt-10 bg-primary overflow-x-hidden'>
-	<main class='z-10 flex flex-col items-center'>
+<body class='text-xl pt-10 overflow-x-hidden w-screen'>
+	<main class='z-10 flex flex-col items-center relative'>
 		<h1 class='pt-[10%] drop-shadow text-8xl'> Rummy </h1>
 		<p class='text-gray-400 pt-6 drop-shadow'> Play the classic board game online! </p>
 		<div class="flex mt-5 flex-col md:flex-row">
@@ -45,12 +45,11 @@
 				['Local turn based', 'play/local'],
 				['Online', '/online/create'],
 			] as [description, link]}
-				<button class='p-10 m-2 text-3xl font-bold bg-secondary/50 backdrop-blur flex-1 drop-shadow'
+				<button class='p-10 m-2 text-3xl font-bold bg-secondary backdrop-blur flex-1 drop-shadow'
 				on:click={() => location.href = link}> {description} </button>
 			{/each}
 		</div>
 
-		<div class='rounded-t-full bg-white min-h-[100px] min-w-full mt-20'></div>
 		<Rules/>
 	</main> 
 

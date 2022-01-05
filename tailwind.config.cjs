@@ -5,10 +5,16 @@ module.exports = {
 		fontFamily: {
 			'sans': ['InterVariable']
 		},
-		extend: {},
+		extend: {
+			backgroundImage: {
+				'triangles': "url('/falling-trangles.svg')",
+			}
+		},
 		colors: {
-			'primary': '#c19071',
-			'secondary': '#99caff',
+			'primary': '#B1744E',
+			'secondary': '#8E5D3E',
+			'tertiary': '#C19071',
+
 			'success': '#21db2d',
 			'warn': '#9e1c1c',
 			'group': '#ff9d00',

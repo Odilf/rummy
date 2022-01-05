@@ -7,7 +7,7 @@
 
 @layer components {
 	:root {
-		@apply text-white
+		@apply text-white;
 	}
 
 	html {
@@ -18,9 +18,9 @@
 		@apply font-extrabold
 	}
 	
-	body {
+	/* body {
 		@apply absolute inset-0 flex flex-col items-center bg-black
-	}
+	} */
 	
 	button {
 		@apply transition rounded-lg drop-shadow;
@@ -35,8 +35,7 @@
 	}
 
 	button:disabled {
-		@apply text-opacity-50; 
-		@apply text-[#555]
+		@apply text-opacity-50 opacity-75;
 	}
 
 	input {

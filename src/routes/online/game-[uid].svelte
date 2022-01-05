@@ -1,7 +1,7 @@
 <script lang='ts'>
 	import { getGame, joinGame } from '$lib/database'
 	import { page } from '$app/stores'
-import OnlineGame from '$lib/online/OnlineGame.svelte'
+	import OnlineGame from '$lib/online/OnlineGame.svelte'
 
 	const uid = $page.params.uid
 

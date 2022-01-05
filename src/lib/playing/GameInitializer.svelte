@@ -101,9 +101,3 @@
 		<GameSettings bind:totalPlayers bind:players/>
 	</main>
 {/if}
-
-<style lang=postcss>
-	h3 {
-		@apply font-bold text-xl
-	}
-</style>

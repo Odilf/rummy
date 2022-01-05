@@ -6,11 +6,9 @@
 
 <Back />
 
-<body class='bg-primary'>
-	<GameInitializer let:tokens let:players>
-		<h1 class='text-6xl sm:text-8xl my-10 drop-shadow mt-16 sm:mt-32' slot='menu'>
-			Local Play
-		</h1>
-		<LocalPlay {tokens} {players}/>
-	</GameInitializer>
-</body>
+<GameInitializer let:tokens let:players>
+	<h1 class='text-6xl sm:text-8xl my-10 drop-shadow mt-16 sm:mt-32' slot='menu'>
+		Local Play
+	</h1>
+	<LocalPlay {tokens} {players}/>
+</GameInitializer>

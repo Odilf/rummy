@@ -9,7 +9,7 @@
 </script>
 
 <button class='bg-secondary p-2 px-4 mt-4' on:click={() => showOptions = !showOptions}>
-	{showOptions ? 'Hide' : 'More'} options
+	{showOptions ? 'Hide configuration' : 'Configure game'}
 </button>
 {#if showOptions}
 	<div class='flex flex-wrap justify-evenly bg-white p-10 rounded-t-3xl rounded-b-xl m-3 w-full'
