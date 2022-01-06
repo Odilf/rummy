@@ -11,8 +11,7 @@
 	import GameSettings from "$lib/playing/GameSettings.svelte";
 	import { snackbar } from "$lib/utils/snackbar";
 
-	// const uid = generateUid()
-	const uid = 'caca'
+	const uid = generateUid()
 	const link = browser ? `${window.location.host}/online/game-${uid}` : 'caca'
 
 	let username
@@ -21,8 +20,6 @@
 	$: if ($game && !$game.players) {
 		$game.players = []
 	}
-
-	$: console.log($game && $game)
 </script>
 
 <div class='mt-36'/>
