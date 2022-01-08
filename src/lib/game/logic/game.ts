@@ -32,7 +32,7 @@ export function draw(tokens: Token[], playerIndex: number): Token[] {
 	return tokens
 }
 
-export function buildDefaultTokens(colorRange = 4, valueRange = 12, repeat = 2): Token[] {
+function buildDefaultTokens(colorRange = 4, valueRange = 12, repeat = 2): Token[] {
 	let tokens: Token[] = []
 	for (let c = 0; c < colorRange; c++) {
 		for (let v = 1; v <= valueRange; v++) {
@@ -52,43 +52,40 @@ export function buildDefaultTokens(colorRange = 4, valueRange = 12, repeat = 2):
 	return tokens
 }
 
-export function newGame(players: string[], tokenOptions: TokenOptions = {}): Token[] {
+export function newGame(players: string[], options: GameOptions = {}): Token[] {
 	
-	tokenOptions = parseTokenOptions(tokenOptions, players.length)
-	console.log('Creating game with tokenOptions', tokenOptions);
+	options = Object.assign(options, defaultGameOptions) 
 	
 
 	// Create tokens
-	let tokens = buildDefaultTokens(tokenOptions.colorRange, tokenOptions.valueRange, tokenOptions.repeat)
+	let tokens = buildDefaultTokens(options.colors, options.values, options.tokenRepeats)
 
 	// Draw cards
 	players.forEach((_, i) => {
-		range(tokenOptions.drawAmount).forEach(() => tokens = draw(tokens, i))
+		range(options.drawAmount).forEach(() => tokens = draw(tokens, i))
 	})
 
 	return tokens
-}
-
-export function parseTokenOptions(options: TokenOptions, players: number): TokenOptions {
-	options.colorRange = assignIfNull(options.colorRange, players)
-	options.valueRange = assignIfNull(options.valueRange, 12)
-	options.drawAmount = assignIfNull(options.drawAmount, 14)
-	options.repeat = assignIfNull(options.repeat, 2)
-
-	return options
 }
 
 export function lowestUnusedIndex(tokens: Token[]) {
 	return getBoard(tokens).map(set => set[0].index).reduce((acc, cur) => cur > acc ? cur : acc, -1) + 1
 }
 
-interface TokenOptions {
-	colorRange?: number,
-	valueRange?: number,
-	drawAmount?: number, 
-	repeat?: number,
+interface GameOptions {
+	colors?: number
+	values?: number
+	drawAmount?: number
+	tokenRepeats?: number
+	minimumInitial?: number
+	wildCardAmount?: number
 }
 
-export function clone(tokens: Token[]) {
-	return [...tokens].map(token => Object.assign({}, token))
+const defaultGameOptions: GameOptions = {
+	colors: 4,
+	values: 12,
+	drawAmount: 14,
+	tokenRepeats: 2,
+	minimumInitial: 30,
+	wildCardAmount: 2
 }
