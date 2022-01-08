@@ -18,7 +18,7 @@ export function createSnackbar(options: SnackbarOptions) {
 	options = Object.assign(defualtOptions, options)
 	const { message, lifetime, transitionDuration } = options
 	const div = document.createElement('div')
-	div.className = 'absolute bg-secondary p-4 m-4 rounded opacity-80 bottom-0' // transition-all duration-500'
+	div.className = 'absolute bg-black p-4 m-4 rounded opacity-80 bottom-0 shadow' // transition-all duration-500'
 	div.textContent = message
 	
 	// div.style.transition = `all 100ms ease-in-out;`
@@ -42,7 +42,5 @@ export function createSnackbar(options: SnackbarOptions) {
 
 	setTimeout(() => {
 		document.body.removeChild(div)
-		console.log('Destroyed snackbar', options);
-		
 	}, transitionDuration * 2 + lifetime)
 }
