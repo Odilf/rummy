@@ -1,10 +1,11 @@
 import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
-import { getDatabase, onDisconnect, onValue, ref, remove, set, get, DataSnapshot } from 'firebase/database'
+import { getDatabase, onDisconnect, onValue, ref, remove, set, get } from 'firebase/database'
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 import { writable } from 'svelte/store';
-import type { Writable } from 'svelte/store';
 import type { Token } from '$lib/game/logic/token';
-import { buildDefaultTokens, draw, newGame } from '$lib/game/logic/game';
+import { draw, newGame } from '$lib/game/logic/game';
+import { browser, dev } from "$app/env";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyBIKvmS56XTqJpIJxrKW7bWMB6yeAdCPOE",
@@ -18,23 +19,9 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-// export const analytics = getAnalytics(app);
 
+console.log(browser, dev);
 export const db = getDatabase(app);
-
-// Store synced to database
-// export const games = writable([] as WaitingGame[])
-// onValue(ref(db, 'games'), snapshot => {
-// 	const newGames = []
-// 	snapshot.forEach(child => {
-// 		newGames.push({
-// 			uid: child.key,
-// 			...child.val()
-// 		})
-// 	})
-
-// 	games.set(newGames)
-// })
 
 interface OnlineGame {
 	uid: string
@@ -48,7 +35,7 @@ interface OnlineGame {
 
 export function getGame(uid: string) {
 	let game = writable(null as OnlineGame)
-	onValue(ref(db, `games/${uid}`), snapshot => game.set(snapshot.val()))
+	onValue(ref(db, `games/${uid}`), snapshot => game.set(snapshot.val()), err => console.warn('YOOOO SOMETHING HAPPENED', err))
 	return game
 }
 
@@ -65,20 +52,12 @@ export async function createGame(uid: string, creatorUsername: string) {
 
 export async function joinGame(uid: string, joinAs: string, index: number) {
 	const playerRef = ref(db, `games/${uid}/players/${index}`)
-	// const game = writable(null as OnlineGame)
-
-	// onValue(ref(db, `started/${uid}`), snapshot => {
-	// 	snapshot.val() && game.set(snapshot.val())
-	// })
 
 	onDisconnect(playerRef).remove()
 	await set(playerRef, joinAs)
-
-	// return game
 }
 
 export async function startGame(uid: string, players: string[]) {
-	const gamePath = `games/${uid}`
 	set(ref(db, `games/${uid}/started`), true)
 	set(ref(db, `games/${uid}/tokens`), newGame(players))
 }
