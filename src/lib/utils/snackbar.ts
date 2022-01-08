@@ -6,43 +6,43 @@ interface SnackbarOptions {
 }
 
 const defualtOptions = {
-	lifetime: 500,
+	lifetime: 1500,
 	transitionDuration: 700
 }
 
 export function snackbar(node: HTMLElement, options: SnackbarOptions) {
+	node.addEventListener('click', () => createSnackbar(options))
+}
+
+export function createSnackbar(options: SnackbarOptions) {
 	options = Object.assign(defualtOptions, options)
 	const { message, lifetime, transitionDuration } = options
+	const div = document.createElement('div')
+	div.className = 'absolute bg-secondary p-4 m-4 rounded opacity-80 bottom-0' // transition-all duration-500'
+	div.textContent = message
+	
+	// div.style.transition = `all 100ms ease-in-out;`
+	div.style.transitionDuration = transitionDuration + 'ms'
+	div.style.transitionProperty = 'all'
 
-	node.addEventListener('click', () => {
-		const div = document.createElement('div')
-		div.className = 'absolute bg-secondary p-4 m-4 rounded opacity-80 bottom-0' // transition-all duration-500'
-		div.textContent = message
-		
-		// div.style.transition = `all 100ms ease-in-out;`
-		div.style.transitionDuration = transitionDuration + 'ms'
-		div.style.transitionProperty = 'all'
+	div.style.transform = 'translateY(20px)'
+	div.style.opacity = '0%'
+	document.body.append(div)
 
+	setTimeout(() => {
+		div.style.transform = ''
+		div.style.opacity = '100%'
+	})
+	
+	setTimeout(() => {
 		div.style.transform = 'translateY(20px)'
 		div.style.opacity = '0%'
-		document.body.append(div)
 
-		setTimeout(() => {
-			div.style.transform = ''
-			div.style.opacity = '100%'
-		})
+	}, transitionDuration + lifetime)
+
+	setTimeout(() => {
+		document.body.removeChild(div)
+		console.log('Destroyed snackbar', options);
 		
-		setTimeout(() => {
-			div.style.transform = 'translateY(20px)'
-			div.style.opacity = '0%'
-
-		}, transitionDuration + lifetime)
-
-		setTimeout(() => {
-			document.body.removeChild(div)
-		}, transitionDuration * 2 + lifetime)
-		
-	})
-
-	
+	}, transitionDuration * 2 + lifetime)
 }
