@@ -24,3 +24,8 @@ export function readStore<T>(store: Readable<T>): T {
 	store.subscribe(v => value = v)()
 	return value
 }
+
+export function clone(object: any) {
+	if (Array.isArray(object)) { return [...object.map(v => clone(v))] }
+	return Object.assign({}, object)
+}
