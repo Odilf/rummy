@@ -26,6 +26,8 @@
 		</div>
 	</div>
 	<button class='m-10 drop-shadow-lg' on:click={() => location.href = '/about'}> About </button>
+
+	<slot/>
 </main>
 
 
