@@ -39,8 +39,6 @@ export function getGame(uid: string) {
 	let game = writable(null as OnlineGame)
 	onValue(ref(db, `games/${uid}`), snapshot => {
 		const value = snapshot.val()
-		console.log('Setting to', value);
-		
 		game.set(value)
 	})
 	return game
@@ -75,16 +73,12 @@ export async function updateTokens(uid: string, tokens: Token[]) {
 
 export async function requestDraw(uid: string, playerIndex: number) {
 	const game = (await get(ref(db, `games/${uid}`))).val() as OnlineGame
-	console.log('Requesting draw. Player', playerIndex);
 
 	if (game.waitingToDraw && game.players.every((_, i) => i === playerIndex || game.waitingToDraw[i])) {
-		console.log('Everyone is waiting to draw, proceed to drawing');
-		
 		game.players.forEach((_, i) => game.tokens = draw(game.tokens, i))
 		set(ref(db, `games/${uid}/tokens`), game.tokens)
 		remove(ref(db, `games/${uid}/waitingToDraw`))
 	} else {		
-		console.log('Player', playerIndex, 'added to queue');
 		set(ref(db, `games/${uid}/waitingToDraw/${playerIndex}`), true)
 	}
 }

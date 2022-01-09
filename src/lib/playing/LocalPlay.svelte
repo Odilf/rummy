@@ -57,7 +57,7 @@
 	function pass(toTurn: number) {
 		turn = toTurn
 		modTurn = turn % players.length
-		console.log({ turn, modTurn});
+;
 		
 		if (!hasPlayed) {
 			tokens = draw(tokens, modTurn)

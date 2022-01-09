@@ -66,14 +66,14 @@
 {:else}
 	<div out:fly={{ duration: 200, y: -50 }}
 	class='flex flex-col items-center'>
-		<h1 class='text-6xl font-bold my-4 drop-shadow'> Create an online game </h1>
+		<h1 class='text-6xl text-center font-bold my-4 drop-shadow'> Create an online game </h1>
 		<input bind:value={username} name='username' placeholder='Username' autocomplete="off"
 		class='p-2 m-4 rounded text-xl'>
 		<button on:click={() => createGame(uid, username)} disabled={!username}
 			class='bg-secondary p-4 m-4 text-3xl font-bold'>
 			Create game
 		</button>
-		You will be able to send a link once you create the game
+		<span class='m-4 text-center'>You will be able to send a link once you create the game</span>
 	</div>
 {/if}
 

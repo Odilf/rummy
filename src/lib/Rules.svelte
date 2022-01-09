@@ -34,6 +34,10 @@
 				{value: 5, color: 5},
 			]} index={0}/>
 		</div>
+
+		<div class="card">
+			You can rearrange tokens on the board and drop from your hand if the final state is valid
+		</div>
 		
 	</div>
 	<button class='m-10 drop-shadow-lg' on:click={() => location.href = '/about'}> About </button>

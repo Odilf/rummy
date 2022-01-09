@@ -28,10 +28,6 @@
 		}
 		current = this
 	}
-	// export function caca() {
-	// 	console.log('caca');
-		
-	// }
 	
 </script>
 

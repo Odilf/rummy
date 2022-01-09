@@ -6,8 +6,6 @@ import type { Writable } from "svelte/store";
 export let savedGames: Writable<SavedGame[]> = writable([])
 
 function replacer(key: string, value: any): any {
-	console.log('Saving', this[key]);
-	
 	if (this[key] instanceof Date) {
 		return { type: 'Date', time: this[key].getTime()}
 	} else {
@@ -35,7 +33,7 @@ if (browser) {
 
 	savedGames.subscribe(v => {
 		window.localStorage.setItem('games', JSON.stringify(v, replacer))
-		console.log('Saving game', v);		
+		console.log('Saving game', v);	
 	})
 }
 

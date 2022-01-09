@@ -46,13 +46,9 @@
 				tokenIndex = lowestUnusedIndex(tokens)
 			}
 
-			console.log('board before', getBoard(tokens));
-
 			const token = tokens.find(token => token.id === tokenData.id)
 			token.belongs = place
 			token.index = tokenIndex
-
-			console.log('board after', getBoard(tokens))
 			tokens = clone(tokens)
 		}
 
