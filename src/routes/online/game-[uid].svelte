@@ -4,8 +4,7 @@
 	import OnlineGame from '$lib/online/OnlineGame.svelte'
 	import { fly } from 'svelte/transition';
 	import Spinner from '$lib/UI/Spinner.svelte';
-import { browser } from '$app/env';
-import Playground from '$lib/playing/Playground.svelte';
+	import { browser } from '$app/env';
 
 	const uid = $page.params.uid
 	const game = getGame(uid)
