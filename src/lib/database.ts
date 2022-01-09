@@ -5,6 +5,7 @@ import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 import { writable } from 'svelte/store';
 import type { Token } from '$lib/game/logic/token';
 import { draw, newGame } from '$lib/game/logic/game';
+import type { GameOptions } from "$lib/game/logic/game";
 import { browser, dev } from "$app/env";
 
 const firebaseConfig = {
@@ -52,9 +53,6 @@ export async function createGame(uid: string, creatorUsername: string) {
 	await set(gameRef, {
 		players: [ creatorUsername ],
 		started: false,
-		options: {
-			drawDelay: 1500
-		}
 	} as OnlineGame)
 }
 
@@ -65,8 +63,9 @@ export async function joinGame(uid: string, joinAs: string, index: number) {
 	await set(playerRef, joinAs)
 }
 
-export async function startGame(uid: string, players: string[]) {
-	set(ref(db, `games/${uid}/tokens`), newGame(players))
+export async function startGame(uid: string, players: string[], options: GameOptions, onlineOptions: { drawDelay: number }) {
+	set(ref(db, `games/${uid}/options`), onlineOptions)
+	set(ref(db, `games/${uid}/tokens`), newGame(players, options))
 	set(ref(db, `games/${uid}/started`), true)
 }
 

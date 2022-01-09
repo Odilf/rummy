@@ -16,7 +16,7 @@
 	let tokens: Token[]
 	let lastValidState: Token[]
 
-	$: lastValidState = []
+	$: lastValidState = clone($game.tokens) 
 	$: tokens = clone(lastValidState)
 
 	let canDraw = true
@@ -72,7 +72,7 @@
 			setTimeout(() => {
 				canDraw = true
 				insistCount = 0
-			}, $game.options.drawDelay)
+			}, $game.options.drawDelay * 1000)
 		} else {
 			insistCount += 1
 			if (insistCount < 3) {
@@ -96,7 +96,7 @@
 						Draw
 					</button>
 					<div class='absolute bg-secondary/50 pointer-events-none {canDraw ? '' : 'reload'}'
-					style='--drawDelay: {$game.options.drawDelay}ms'/>
+					style='--drawDelay: {$game.options.drawDelay}s'/>
 				</div>
 				<button class='bg-tertiary m-2 p-4' on:click={() => tokens = clone(lastValidState)}>
 					Reset board

@@ -98,6 +98,17 @@
 
 		<Counter bind:value={totalPlayers}/>
 
-		<GameSettings bind:totalPlayers bind:players/>
+		<GameSettings>
+			<div class='flex flex-col m-4'>
+				<h3 class='text-black'>
+					Player names
+				</h3>
+				{#each players.slice(0, totalPlayers) as player, i}
+					<input bind:value={player} placeholder='Player {i + 1}' in:fly
+					class='text-black text-center my-2 py-2 rounded shadow border-2 border-black/20'>
+				{/each}
+				<button class='text-black text-2xl' on:click={() => totalPlayers++}> + </button>
+			</div>
+		</GameSettings>
 	</main>
 {/if}

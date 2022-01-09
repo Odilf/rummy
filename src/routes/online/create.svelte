@@ -15,6 +15,8 @@
 	const link = browser ? `${window.location.host}/online/game-${uid}` : 'caca'
 
 	let username
+	let options
+	let onlineOptions = { drawDelay: 2 }
 
 	const game = getGame(uid)
 	$: if ($game && !$game.players) {
@@ -30,7 +32,7 @@
 		</div>
 	{:else}
 		<div class='p-5 flex flex-col items-center' in:fly={{ duration: 500, y: 50, delay: 500 }} out:fly={{ duration: 500, y: 50 }}>
-			<h2 class='text-6xl font-light text-center m-6'> Game created! </h2>
+			<h2 class='text-6xl font-light text-center m-6 drop-shadow'> Game created! </h2>
 			
 			<div class='flex flex-col sm:flex-row items-center'>
 				<button on:click={() => navigator.clipboard.writeText(link)} use:snackbar={{ message: 'Link copied to clipboard!', lifetime: 1500}}
@@ -41,7 +43,7 @@
 					Invite
 				</button>
 
-				<button on:click={() => startGame(uid, $game.players)}
+				<button on:click={() => startGame(uid, $game.players, options, onlineOptions)}
 				class='bg-white text-black m-2 p-4 font-bold flex items-center text-2xl w-full sm:w-fit'>
 				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
@@ -58,13 +60,13 @@
 				{/each}
 			</div>
 
-			<GameSettings/>
+			<GameSettings bind:options bind:onlineOptions/>
 		</div>
 	{/if}
 {:else}
 	<div out:fly={{ duration: 200, y: -50 }}
 	class='flex flex-col items-center'>
-		<h1 class='text-6xl font-bold my-4'> Create an online game </h1>
+		<h1 class='text-6xl font-bold my-4 drop-shadow'> Create an online game </h1>
 		<input bind:value={username} name='username' placeholder='Username' autocomplete="off"
 		class='p-2 m-4 rounded text-xl'>
 		<button on:click={() => createGame(uid, username)} disabled={!username}

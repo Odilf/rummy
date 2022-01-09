@@ -26,7 +26,7 @@ export function stackSize(tokens: Token[]): number {
 }
 
 export function draw(tokens: Token[], playerIndex: number): Token[] {
-	if (stackSize(tokens) <= 0) { console.warn("Not enough cards to draw"); return }
+	if (stackSize(tokens) <= 0) { console.warn("Not enough cards to draw"); return tokens}
 
 	const stack = getStack(tokens)
 	const find = stack[Math.floor(Math.random() * stack.length)]
@@ -36,12 +36,20 @@ export function draw(tokens: Token[], playerIndex: number): Token[] {
 	return tokens
 }
 
-function buildDefaultTokens(colorRange = 4, valueRange = 12, repeat = 2): Token[] {
+function buildDefaultTokens(options: GameOptions): Token[] {
+	options = Object.assign(options, defaultGameOptions)
+	const {
+		colors,
+		values,
+		tokenRepeats,
+		wildcardAmount
+	} = options
+	
 	let tokens: Token[] = []
-	for (let c = 0; c < colorRange; c++) {
-		for (let v = 1; v <= valueRange; v++) {
-			for (let r = 0; r < repeat; r++) {
-				const i = c * valueRange + v + r * (valueRange * colorRange)
+	for (let c = 0; c < colors; c++) {
+		for (let v = 1; v <= values; v++) {
+			for (let r = 0; r < tokenRepeats; r++) {
+				const i = c * values + v + r * (values * colors) + wildcardAmount
 				tokens.push({
 					color: c,
 					value: v,
@@ -53,16 +61,25 @@ function buildDefaultTokens(colorRange = 4, valueRange = 12, repeat = 2): Token[
 		}
 	}
 
+	for (let i = 0; i < wildcardAmount; i++) {
+		tokens.push({
+			color: -1,
+			value: -1,
+			belongs: Place.Stack,
+			index: i,
+			id: i,
+		})
+	}
+
 	return tokens
 }
 
 export function newGame(players: string[], options: GameOptions = {}): Token[] {
 	
-	options = Object.assign(options, defaultGameOptions) 
-	
+	options = Object.assign(options, defaultGameOptions)
 
 	// Create tokens
-	let tokens = buildDefaultTokens(options.colors, options.values, options.tokenRepeats)
+	let tokens = buildDefaultTokens(options)
 
 	// Draw cards
 	players.forEach((_, i) => {
@@ -76,20 +93,20 @@ export function lowestUnusedIndex(tokens: Token[]) {
 	return getBoard(tokens).map(set => set[0].index).reduce((acc, cur) => cur > acc ? cur : acc, -1) + 1
 }
 
-interface GameOptions {
+export interface GameOptions {
 	colors?: number
 	values?: number
 	drawAmount?: number
 	tokenRepeats?: number
 	minimumInitial?: number
-	wildCardAmount?: number
+	wildcardAmount?: number
 }
 
-const defaultGameOptions: GameOptions = {
+export const defaultGameOptions: GameOptions = {
 	colors: 4,
 	values: 12,
 	drawAmount: 14,
 	tokenRepeats: 2,
 	minimumInitial: 30,
-	wildCardAmount: 2
+	wildcardAmount: 0,
 }
