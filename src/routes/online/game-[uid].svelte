@@ -33,7 +33,7 @@
 	{#if $game.started}
 		<div in:fly={{ y: 100, duration: 400, delay: 400}}>
 			{#if $game.players.includes(username)}
-				<OnlineGame index={1} {uid}/>
+				<OnlineGame index={$game.players.indexOf(username)} {uid} {game}/>
 			{:else}
 				Game already in progress.	
 			{/if}
