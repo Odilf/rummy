@@ -6,21 +6,11 @@
 	import Token from "$lib/game/Token.svelte";
 	import Rules from "$lib/Rules.svelte";
 
-	const tokens = [
-		{ value: 4, color: 0, },
-		{ value: 5, color: 2, },
-		{ value: 12, color: 5, },
-		{ value: 3, color: 10, },
-		{ value: 6, color: 4, },
-		{ value: 1, color: 2, },
-		{ value: 7, color: 3, },
-	]
-
 	let showConfetti = true 
-	let confetti = new Array(20).fill(0)
+	let confetti = new Array(50).fill(0)
 		.map(() => {
 			const i = Math.random()
-			const x = i < 0.5 ? i**2 : 1 - (1 - i)**2
+			const x = i < 0.5 ? i**(1.5) : 1 - (1 - i)**(1.5)
 
 			return {
 				token: { value: Math.floor(Math.random() * 12), color: Math.floor(Math.random() * 5)},
