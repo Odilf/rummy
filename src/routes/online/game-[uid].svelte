@@ -3,7 +3,7 @@
 	import { page } from '$app/stores'
 	import OnlineGame from '$lib/online/OnlineGame.svelte'
 	import { fly } from 'svelte/transition';
-	import Spinner from '$lib/UI/Spinner.svelte';
+	import Loader from '$lib/UI/Loader.svelte';
 	import { browser } from '$app/env';
 
 	const uid = $page.params.uid
@@ -57,8 +57,8 @@
 					Join game
 				</button>
 			{:else}
-				<div> Waiting for game to start </div>
-				<Spinner/>
+				<div> Waiting for host to start the game </div>
+				<Loader/>
 			{/if}
 		</div>
 	{/if}
