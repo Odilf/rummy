@@ -29,8 +29,8 @@
 	function start() {
 		started = true
 		tokens = newGame(players)
-		players = players.map(player => {
-			player = player || `Player ${players.indexOf(player) + 1}`
+		players = players.map((player, i) => {
+			player = player || `Player ${i + 1}`
 			return player
 		})
 	}
