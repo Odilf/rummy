@@ -1,13 +1,18 @@
-<main class="bg-primary justify-start m-auto">
-	<h1 class="mt-10"> About </h1>
+<script context='module'>
+	export const prerender = true
+</script>
 
-	<section>
-		<h2 class="text-4xl"> Caca </h2>
-		<p>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur velit autem rem id nihil! Mollitia sint nihil assumenda odit possimus quibusdam quia, voluptatum nemo porro? Harum esse asperiores rerum. Earum?
-		</p>
-	</section>
-</main>
+<h1 class="mt-10 text-6xl"> About </h1>
+
+<section class='max-w-[640px]'>
+	<h2 class="text-4xl"> Rummy </h2>
+	<p>
+		This is an unoffical online adaptation of the board game, Rummy. Not much more to say honsetly.
+	</p>
+	<p>
+		Oh yeah, the website is built with <a href="https://svelte.dev"> Svelte </a> and the source code is available in <a href='https://github.com/Odilf/Rummy'> GitHub</a>.
+	</p>
+</section>
 
 <style lang='postcss'>
 	section {
