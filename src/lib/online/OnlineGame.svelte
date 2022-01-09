@@ -18,14 +18,14 @@
 
 	let wzoom = new Audio('/sounds/wzoom.mp3')
 	wzoom.volume = 0.3
-	
-	
 
 	$: {
+		if (getBoard($game.tokens).length !== getBoard(lastValidState).length) {
+			wzoom.currentTime = 0
+			wzoom.play()
+			console.log('Should have played');
+		}
 		lastValidState = clone($game.tokens)
-		wzoom.currentTime = 0
-		wzoom.play()
-		console.log('Should have played');
 		
 	}
 	$: tokens = clone(lastValidState)
