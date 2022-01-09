@@ -5,7 +5,8 @@
 	import { isEqual, Token, Place } from "$lib/game/logic/token";
 	import { isValidBoard } from "$lib/game/logic/set";
 	import { getPossessiveName } from "$lib/game/logic/player";
-	import { getHand, getBoard, lowestUnusedIndex, draw, clone } from "$lib/game/logic/game";
+	import { getHand, getBoard, lowestUnusedIndex, draw } from "$lib/game/logic/game";
+	import { clone } from "$lib/utils";
 	
 	import Overlay from "$lib/UI/Overlay.svelte"
 	import { fly } from "svelte/transition";
