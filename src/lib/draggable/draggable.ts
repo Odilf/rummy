@@ -1,3 +1,4 @@
+import { browser } from '$app/env'
 import interact from 'interactjs'
 
 interact.dynamicDrop(true)
@@ -46,7 +47,19 @@ export function dropzone(node: HTMLElement) {
 		},
 
 		ondrop(event) {
+			const click = clicks[0]
+			click.currentTime = 0
+			click.play()
+			console.log('Playing', click);
+			
 			event.target.dispatchEvent( new CustomEvent('drop', { detail: event.relatedTarget['broadcast'] }) )
 		},
 	})
 }
+
+let clicks = browser ? [
+	new Audio('/sounds/click1.mp3'),
+	new Audio('/sounds/click2.mp3'),
+	new Audio('/sounds/click3.mp3'),
+	new Audio('/sounds/click4.mp3'),
+] : []

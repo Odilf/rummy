@@ -14,9 +14,11 @@
 	const uid = generateUid()
 	const link = browser ? `${window.location.host}/online/game-${uid}` : 'caca'
 
-	let username
+	let username = browser ? localStorage.getItem('username') : ''
 	let options
 	let onlineOptions = { drawDelay: 2 }
+
+	$: browser && localStorage.setItem('username', username)
 
 	const game = getGame(uid)
 	$: if ($game && !$game.players) {
@@ -27,7 +29,7 @@
 <div class='mt-36'/>
 {#if $game}
 	{#if $game.started}
-		<div in:fly={{ y: 100, duration: 400, delay: 400 }}>
+		<div in:fly={{ y: 100, duration: 400, delay: 500 }}>
 			<OnlineGame index={0} {uid} {game}/>
 		</div>
 	{:else}

@@ -16,7 +16,18 @@
 	let tokens: Token[]
 	let lastValidState: Token[]
 
-	$: lastValidState = clone($game.tokens) 
+	let wzoom = new Audio('/sounds/wzoom.mp3')
+	wzoom.volume = 0.3
+	
+	
+
+	$: {
+		lastValidState = clone($game.tokens)
+		wzoom.currentTime = 0
+		wzoom.play()
+		console.log('Should have played');
+		
+	}
 	$: tokens = clone(lastValidState)
 
 	let canDraw = true
@@ -25,6 +36,7 @@
 	$: if (getHand(lastValidState, index).length === 0 && !$game.winner) {
 		win(uid, $game.players[index])
 	}
+
 
 	function handleDrop(e) {
 		if ('token' in e.detail) {

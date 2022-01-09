@@ -41,7 +41,7 @@
 	{:else}
 		<div out:fly={{ y: 100, duration: 400 }}
 		class='flex flex-col items-center'>
-			<h1 class='font-light text-7xl'> Game found! </h1>	
+			<h1 class='font-light text-7xl text-center'> Game found! </h1>	
 
 			<div class='flex flex-col my-10'>
 				<h2 class='font-bold text-3xl m-2'> Players joined so far: </h2>

@@ -23,17 +23,9 @@
 		
 		{#if onlineOptions}
 			<Counter bind:value={onlineOptions.drawDelay}> Draw delay </Counter>
-			<Counter bind:value={options.minimumInitial}> Minimum initial play </Counter>
-		{:else}
-			
-			<div class='flex flex-col m-4'>
-				<h3 class='text-black'>
-					Tokens
-				</h3>
-				<Counter> Tokens per player </Counter>
-				<Counter> Token range </Counter>
-				<Counter> Color range </Counter>
-			</div>
+			<!-- <Counter bind:value={options.minimumInitial}> Minimum initial play </Counter> -->
+		{:else}	
+			idk
 		{/if}
 		<slot/>
 	</div>

@@ -54,7 +54,13 @@
 	on:mouseenter={() => timeout = setTimeout(() => hovering = true, 500)}
 	on:mouseleave={() => { clearTimeout(timeout); hovering = false}}
 	>
-		{value}
+	<span class='text-center w-full'>
+		{#if value === -1}
+			*
+		{:else}
+			{value}
+		{/if}
+	</span>
 		{#if hovering}
 		<div class='position: absolute text-base -top-10 bg-black/50 rounded px-2 font-thin text-white text-center pointer-events-none' 
 		in:fly={{y: -20, duration: 300}}

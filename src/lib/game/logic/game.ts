@@ -63,13 +63,16 @@ function buildDefaultTokens(options: GameOptions): Token[] {
 
 	for (let i = 0; i < wildcardAmount; i++) {
 		tokens.push({
-			color: -1,
+			color: i,
 			value: -1,
 			belongs: Place.Stack,
 			index: i,
 			id: i,
 		})
 	}
+
+	console.log(tokens);
+	
 
 	return tokens
 }
