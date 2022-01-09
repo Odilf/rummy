@@ -19,23 +19,29 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
-console.log(browser, dev);
 export const db = getDatabase(app);
 
 interface OnlineGame {
-	uid: string
-	settings: string
+	options: {
+		drawDelay?: number
+	}
+
 	players: string[]
 	started: boolean
-
+	winner?: string
+	
 	tokens?: Token[]
 	waitingToDraw?: number[]
 }
 
 export function getGame(uid: string) {
 	let game = writable(null as OnlineGame)
-	onValue(ref(db, `games/${uid}`), snapshot => game.set(snapshot.val()), err => console.warn('YOOOO SOMETHING HAPPENED', err))
+	onValue(ref(db, `games/${uid}`), snapshot => {
+		const value = snapshot.val()
+		console.log('Setting to', value);
+		
+		game.set(value)
+	})
 	return game
 }
 
@@ -44,10 +50,12 @@ export async function createGame(uid: string, creatorUsername: string) {
 	onDisconnect(gameRef).remove()
 
 	await set(gameRef, {
-		settings: 'default',
 		players: [ creatorUsername ],
 		started: false,
-	})
+		options: {
+			drawDelay: 1500
+		}
+	} as OnlineGame)
 }
 
 export async function joinGame(uid: string, joinAs: string, index: number) {
@@ -58,8 +66,8 @@ export async function joinGame(uid: string, joinAs: string, index: number) {
 }
 
 export async function startGame(uid: string, players: string[]) {
-	set(ref(db, `games/${uid}/started`), true)
 	set(ref(db, `games/${uid}/tokens`), newGame(players))
+	set(ref(db, `games/${uid}/started`), true)
 }
 
 export async function updateTokens(uid: string, tokens: Token[]) {
@@ -80,4 +88,8 @@ export async function requestDraw(uid: string, playerIndex: number) {
 		console.log('Player', playerIndex, 'added to queue');
 		set(ref(db, `games/${uid}/waitingToDraw/${playerIndex}`), true)
 	}
+}
+
+export function win(uid: string, player: string) {
+	set(ref(db, `games/${uid}/winner`), player)
 }

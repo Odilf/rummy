@@ -3,6 +3,8 @@ import type { Token } from "./token"
 import { Place } from "./token"
 
 export function getBoard(tokens: Token[]): Token[][] {
+	if (!tokens) return []
+
 	const board_tokens = tokens.filter(token => token.belongs === Place.Board)
 	const set = new Set(board_tokens.map(token => token.index))
 
@@ -10,6 +12,8 @@ export function getBoard(tokens: Token[]): Token[][] {
 }
 
 export function getHand(tokens: Token[], index: number): Token[] {
+	if (!tokens) return []
+	
 	return tokens.filter(token => token.belongs === Place.Hand && token.index === index)
 }
 

@@ -35,7 +35,7 @@
 </script>
 
 
-<main class='font-bold rounded m-4 mb-0 flex flex-col sm:flex-row' >
+<header class='font-bold rounded flex flex-col sm:flex-row' >
 	<div class='flex flex-col h-full sm:py-10'>
 		<header class='flex-1 sm:flex-col'>
 			<button disabled={activePlayer === 0} on:click={() => activePlayer--}> Previous </button>
@@ -47,8 +47,8 @@
 			Draw token
 		</button>
 	</div>
+</header>
 
-	<Hand hand={getHand(tokens, activePlayer)} index={activePlayer} on:drop={handleDrop}/>
-</main>
+<Hand hand={getHand(tokens, activePlayer)} index={activePlayer} on:drop={handleDrop}/>
 
 <Board sets={getBoard(tokens)} on:drop={handleDrop}/>

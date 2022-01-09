@@ -3,9 +3,7 @@
 </script>
 
 {#if floating}
-	<div class='absolute top-0 left-0'>
-		<button class='sticky top-2 left-0 z-50 bg-secondary p-2 m-2'> Back </button>
-	</div>
+	<button class='z-50 bg-tertiary p-2 m-2'> Back </button>
 {:else}
-	<button> Back </button>
+	<button on:click={() => history.back()} class='sticky top-2 left-2 z-50 bg-secondary p-2 m-2 justify-self-start'> Back </button>
 {/if}

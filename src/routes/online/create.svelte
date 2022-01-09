@@ -11,7 +11,7 @@
 	import GameSettings from "$lib/playing/GameSettings.svelte";
 	import { snackbar } from "$lib/utils/snackbar";
 
-	const uid = generateUid()
+	const uid = 'caca' || generateUid()
 	const link = browser ? `${window.location.host}/online/game-${uid}` : 'caca'
 
 	let username
@@ -23,29 +23,13 @@
 </script>
 
 <div class='mt-36'/>
-{#if !$game}
-	<div transition:fly={{ duration: 200, y: -50, delay: 500 }}
-	class='flex flex-col items-center'>
-		<h1 class='text-6xl font-bold my-4'> Create an online game </h1>
-		<input bind:value={username} name='username' placeholder='Username' autocomplete="off"
-		class='p-2 m-4 rounded text-xl'>
-		<button on:click={() => createGame(uid, username)} disabled={!username}
-			class='bg-secondary p-4 m-4 text-3xl font-bold'>
-			Create game
-		</button>
-		You will be able to send a link once you create the game
-
-		<!-- <div class='flex flex-col opacity-20 m-10'>
-			Or join a game via an ID
-			<input>
-			<button formaction='game-caca'> Search </button>
-		</div> -->
-	</div>
-	
-{:else}
-
-	{#if !$game.started}
-		<div class='p-5 flex flex-col items-center' transition:fly={{ duration: 500, y: 50 }}>
+{#if $game}
+	{#if $game.started}
+		<div in:fly={{ y: 100, duration: 400, delay: 400 }}>
+			<OnlineGame index={0} {uid}/>
+		</div>
+	{:else}
+		<div class='p-5 flex flex-col items-center' in:fly={{ duration: 500, y: 50, delay: 500 }} out:fly={{ duration: 500, y: 50 }}>
 			<h2 class='text-6xl font-light text-center m-6'> Game created! </h2>
 			
 			<div class='flex flex-col sm:flex-row items-center'>
@@ -62,7 +46,7 @@
 				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-				  </svg>
+				</svg>
 					Start game
 				</button>
 			</div>
@@ -70,18 +54,25 @@
 			<div class='flex flex-col my-10'>
 				<h2 class='font-bold text-3xl m-2'> Players joined so far: </h2>
 				{#each $game.players as player}
-					<li class='text-xl' transition:fly={{ y: 50, duration: 1000}}> {player} </li>
+					<li class='text-xl' transition:fly|local={{ y: 50, duration: 1000}}> {player} </li>
 				{/each}
 			</div>
 
 			<GameSettings/>
 		</div>
-
-	{:else}
-
-		<OnlineGame tokens={$game.tokens} index={0} {uid}/>
-
 	{/if}
+{:else}
+	<div out:fly={{ duration: 200, y: -50 }}
+	class='flex flex-col items-center'>
+		<h1 class='text-6xl font-bold my-4'> Create an online game </h1>
+		<input bind:value={username} name='username' placeholder='Username' autocomplete="off"
+		class='p-2 m-4 rounded text-xl'>
+		<button on:click={() => createGame(uid, username)} disabled={!username}
+			class='bg-secondary p-4 m-4 text-3xl font-bold'>
+			Create game
+		</button>
+		You will be able to send a link once you create the game
+	</div>
 {/if}
 
-<span class='absolute bottom-0 m-2 opacity-25'> Current uid is {uid} </span>
+<span class='sticky bottom-2 m-2 opacity-25'> Current uid is {uid} </span>

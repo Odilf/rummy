@@ -34,3 +34,9 @@ use:dropzone on:drop={handler} on:dragenter={handler}>
 		</div>	
 	{/each}
 </div>
+
+<style lang='postcss'>
+	.invalid {
+		@apply bg-warn/50;
+	}
+</style>

@@ -25,9 +25,6 @@
 
 	$: hasPlayed = currentHand.length !== getHand(lastValidState, modTurn).length
 
-	$: console.log({ hasPlayed, currentHand, caca: getHand(lastValidState, modTurn) });
-	
-
 	function handleDrop(e) {
 		if ('token' in e.detail) {
 			const tokenData = e.detail.token
@@ -93,11 +90,12 @@
 		{/if}
 	</div>
 
-	{#key modTurn}
-	<div in:fly={{ duration: 200, x: 200, delay: 200 }}>
-		<Hand hand={getHand(tokens, modTurn)} index={modTurn} on:drop={handleDrop}/>
-	</div>
-	{/key}
 </main>
+
+{#key modTurn}
+<span in:fly={{ duration: 200, x: 200, delay: 200 }} class='w-full flex justify-center'>
+	<Hand hand={currentHand} index={modTurn} on:drop={handleDrop}/>
+</span>
+{/key}
 
 <Board sets={getBoard(tokens)} on:drop={handleDrop}/>
