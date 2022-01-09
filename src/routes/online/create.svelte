@@ -1,7 +1,3 @@
-<script context='module'>
-	export const prerender = true;
-</script>
-
 <script>
 	import { uid as generateUid } from "uid";
 	import { browser } from "$app/env";

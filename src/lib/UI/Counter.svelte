@@ -12,7 +12,7 @@
 	}
 </script>
 	
-<div class='flex m-2'>
+<div class='flex m-2 h-fit'>
 	<h3 class='text-black flex items-center text-right'> <slot/> </h3>
 	<div class='flex text-3xl drop-shadow text-black'>
 		<button class='mx-4' on:click={() => value--}> - </button>

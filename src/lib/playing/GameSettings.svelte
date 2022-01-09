@@ -13,7 +13,7 @@
 	{showOptions ? 'Hide configuration' : 'Configure game'}
 </button>
 {#if showOptions}
-	<div class='flex flex-wrap justify-evenly bg-white p-10 rounded-t-3xl rounded-b-xl m-3 w-full'
+	<div class='flex flex-wrap justify-evenly bg-white p-10 rounded-t-3xl rounded-b-xl m-3 w-full max-w-[820px]'
 	transition:fly={{y: 300}}>
 		<Counter bind:value={options.colors}> Number of colors </Counter>
 		<Counter bind:value={options.drawAmount}> Draw amount </Counter>
