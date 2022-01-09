@@ -1,6 +1,5 @@
 <script lang="ts">
-  import WinScreen from './WinScreen.svelte';
-
+	import WinScreen from './WinScreen.svelte';
 	import { isEqual, Place, Token } from "$lib/game/logic/token";
 	import Hand from "$lib/game/Hand.svelte";
 	import { draw, getBoard, getHand, lowestUnusedIndex } from "$lib/game/logic/game";
@@ -9,16 +8,10 @@
 	import { getGame, updateTokens, win } from "$lib/database";
 	import { createSnackbar } from "$lib/utils/snackbar";
 	import { clone } from "$lib/utils";
-	import JSConfetti from 'js-confetti'
-	import { browser } from "$app/env";
-import Playground from '$lib/playing/Playground.svelte';
 
 	export let index: number
 	export let uid: string
-
-	let game = getGame(uid)
-
-	$: console.log('Updating bullshit', $game)
+	export let game = getGame(uid)
 
 	let tokens: Token[]
 	let lastValidState: Token[]
@@ -26,24 +19,12 @@ import Playground from '$lib/playing/Playground.svelte';
 	$: lastValidState = []
 	$: tokens = clone(lastValidState)
 
-	$: console.log('lvs', getBoard(lastValidState))
-	$: console.log('tokens', getBoard(tokens))
-
 	let canDraw = true
 	let insistCount = 0
 
 	$: if (getHand(lastValidState, index).length === 0 && !$game.winner) {
 		win(uid, $game.players[index])
-		
-		function yay() {
-			confetti.addConfetti()
-			setTimeout(yay, Math.random() * 3000 + 1000)
-		}
-
-		yay()
 	}
-
-	const confetti = browser && new JSConfetti()
 
 	function handleDrop(e) {
 		if ('token' in e.detail) {
@@ -78,7 +59,6 @@ import Playground from '$lib/playing/Playground.svelte';
 		const board = getBoard(tokens)
 
 		if (isValidBoard(board) && !lastValidState.every((token, i) => isEqual(token, tokens[i]))) {
-			// lastValidState = clone(tokens)
 			updateTokens(uid, tokens)
 			createSnackbar({ message: 'Commited!' })
 		}
@@ -102,9 +82,6 @@ import Playground from '$lib/playing/Playground.svelte';
 			}
 		}
 	}
-
-	console.log('caca', !!{});
-	
 	
 </script>
 

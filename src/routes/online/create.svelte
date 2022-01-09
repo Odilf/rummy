@@ -11,7 +11,7 @@
 	import GameSettings from "$lib/playing/GameSettings.svelte";
 	import { snackbar } from "$lib/utils/snackbar";
 
-	const uid = 'caca' || generateUid()
+	const uid = generateUid()
 	const link = browser ? `${window.location.host}/online/game-${uid}` : 'caca'
 
 	let username
@@ -26,7 +26,7 @@
 {#if $game}
 	{#if $game.started}
 		<div in:fly={{ y: 100, duration: 400, delay: 400 }}>
-			<OnlineGame index={0} {uid}/>
+			<OnlineGame index={0} {uid} {game}/>
 		</div>
 	{:else}
 		<div class='p-5 flex flex-col items-center' in:fly={{ duration: 500, y: 50, delay: 500 }} out:fly={{ duration: 500, y: 50 }}>
